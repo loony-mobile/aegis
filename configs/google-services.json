@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "176022618867",
+    "project_id": "loony-mobile",
+    "storage_bucket": "loony-mobile.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:176022618867:android:719cc767fcd9f1d2102d86",
+        "android_client_info": {
+          "package_name": "com.aegis"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3-zXl7baxjSLupt5H6Lm8YjlUGDhqJGs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
