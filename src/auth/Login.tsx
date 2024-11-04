@@ -21,6 +21,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Auth} from '../types';
 
 const rnBiometrics = new ReactNativeBiometrics();
+const biometricEnabled = false;
 
 function Login({setComponentState, authContext}: any): React.JSX.Element {
   const {setAuthContext} = authContext;
@@ -48,27 +49,29 @@ function Login({setComponentState, authContext}: any): React.JSX.Element {
   };
 
   useEffect(() => {
-    (async () => {
-      rnBiometrics
-        .isSensorAvailable()
-        .then(result => {
-          const {available, biometryType} = result;
-          if (
-            available &&
-            (biometryType === BiometryTypes.TouchID ||
-              biometryType === BiometryTypes.FaceID)
-          ) {
-            handleBiometricAuthentication();
-          } else {
-            Alert.alert(
-              'Biometric authentication is not available on this device.',
-            );
-          }
-        })
-        .catch(error =>
-          console.log('Error checking biometric availability: ', error),
-        );
-    })();
+    if (biometricEnabled) {
+      (async () => {
+        rnBiometrics
+          .isSensorAvailable()
+          .then(result => {
+            const {available, biometryType} = result;
+            if (
+              available &&
+              (biometryType === BiometryTypes.TouchID ||
+                biometryType === BiometryTypes.FaceID)
+            ) {
+              handleBiometricAuthentication();
+            } else {
+              Alert.alert(
+                'Biometric authentication is not available on this device.',
+              );
+            }
+          })
+          .catch(error =>
+            console.log('Error checking biometric availability: ', error),
+          );
+      })();
+    }
   }, []);
 
   // Simple email validation
@@ -108,6 +111,7 @@ function Login({setComponentState, authContext}: any): React.JSX.Element {
           email,
           password,
         );
+        console.log(userCredential);
         const user = {
           uid: userCredential.user.uid,
           email: userCredential.user.email,
@@ -115,7 +119,6 @@ function Login({setComponentState, authContext}: any): React.JSX.Element {
         const expiryTime = Date.now() + 60 * 60 * 1000; // 1 hour in milliseconds
         await AsyncStorage.setItem('AUTH_USER', JSON.stringify(user));
         await AsyncStorage.setItem('AUTH_TOKEN_EXPIRY', expiryTime.toString());
-
         setAuthContext({
           auth: Auth.TRUE,
           user,

@@ -7,5 +7,6 @@ export type User = {
 
 export enum Auth {
     TRUE = 1,
-    FALSE = 2
+    FALSE = 2,
+    LOADING = 3
 }

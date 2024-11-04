@@ -2,16 +2,19 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {View, Text} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons'; // Install react-native-vector-icons if you want icons
+import Icon from 'react-native-vector-icons/Ionicons';
+
+import HomeScreen from '../screens/Home';
+import ProfileScreen from '../screens/Profile';
+import AddScreen from '../screens/Add';
 
 const tabBarIcon = ({route, focused, color, size}: any) => {
   let iconName = 'home';
 
   if (route.name === 'Home') {
     iconName = focused ? 'home' : 'home-outline';
-  } else if (route.name === 'Settings') {
-    iconName = focused ? 'settings' : 'settings-outline';
+  } else if (route.name === 'Add') {
+    iconName = focused ? 'add' : 'add';
   } else if (route.name === 'Profile') {
     iconName = focused ? 'person' : 'person-outline';
   }
@@ -27,34 +30,9 @@ const screenOptions = ({route}: any) => ({
       color,
       size,
     }),
-  tabBarActiveTintColor: 'tomato',
+  tabBarActiveTintColor: '#007BFF',
   tabBarInactiveTintColor: 'gray',
 });
-
-// Create basic screen components
-function HomeScreen() {
-  return (
-    <View>
-      <Text>Home Screen</Text>
-    </View>
-  );
-}
-
-function SettingsScreen() {
-  return (
-    <View>
-      <Text>Settings Screen</Text>
-    </View>
-  );
-}
-
-function ProfileScreen() {
-  return (
-    <View>
-      <Text>Profile Screen</Text>
-    </View>
-  );
-}
 
 // Create a Bottom Tab Navigator
 const Tab = createBottomTabNavigator();
@@ -64,8 +42,12 @@ export default function UserRoutes(props: any) {
     <NavigationContainer>
       <Tab.Navigator initialRouteName="Home" screenOptions={screenOptions}>
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Settings" component={SettingsScreen} />
-        <Tab.Screen name="Profile" component={ProfileScreen} />
+        <Tab.Screen name="Add" component={AddScreen} />
+        <Tab.Screen
+          name="Profile"
+          component={ProfileScreen}
+          initialParams={props}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );

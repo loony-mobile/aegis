@@ -5,14 +5,15 @@ import React, {
   useEffect,
 } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import auth from '@react-native-firebase/auth';
 
 import {Auth} from '../types/index';
 
 // Create the context
 const AuthContext = createContext({
   user: null,
-  auth: Auth.FALSE,
-  setAuthContext: ({user, auth}) => {
+  auth: Auth.LOADING,
+  setAuthContext: (_: any) => {
     return;
   },
 });
@@ -21,10 +22,12 @@ const AuthContext = createContext({
 export const AuthProvider = ({children}: PropsWithChildren) => {
   const [context, setAuthContext] = useState({
     user: null,
-    auth: Auth.FALSE,
+    auth: Auth.LOADING,
   });
 
   useEffect(() => {
+    const currentUser = auth().currentUser;
+    console.log(currentUser);
     const loadToken = async () => {
       const authUser = await AsyncStorage.getItem('AUTH_USER');
       const expiryTime = await AsyncStorage.getItem('AUTH_TOKEN_EXPIRY');
@@ -36,11 +39,20 @@ export const AuthProvider = ({children}: PropsWithChildren) => {
           await AsyncStorage.removeItem('AUTH_USER');
           await AsyncStorage.removeItem('AUTH_TOKEN_EXPIRY');
         } else {
-          setAuthContext({
-            user: JSON.parse(authUser),
-            auth: Auth.TRUE,
-          });
+          setTimeout(() => {
+            setAuthContext({
+              user: JSON.parse(authUser),
+              auth: Auth.TRUE,
+            });
+          }, 1000);
         }
+      } else {
+        setTimeout(() => {
+          setAuthContext({
+            user: null,
+            auth: Auth.FALSE,
+          });
+        }, 1000);
       }
     };
 
