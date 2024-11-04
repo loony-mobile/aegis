@@ -5,7 +5,6 @@ import React, {
   useEffect,
 } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import auth from '@react-native-firebase/auth';
 
 import {Auth} from '../types/index';
 
@@ -26,8 +25,6 @@ export const AuthProvider = ({children}: PropsWithChildren) => {
   });
 
   useEffect(() => {
-    const currentUser = auth().currentUser;
-    console.log(currentUser);
     const loadToken = async () => {
       const authUser = await AsyncStorage.getItem('AUTH_USER');
       const expiryTime = await AsyncStorage.getItem('AUTH_TOKEN_EXPIRY');

@@ -1,32 +1,46 @@
-import React, {useState} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
   TextInput,
   StyleSheet,
+  Alert,
   TouchableOpacity,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export default function Add() {
+export default function Edit(props: any) {
   const [isHidden, setIsHidden] = useState(false);
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [url, setUrl] = useState('');
   const [password, setPassword] = useState('');
 
-  const saveCred = () => {
+  useEffect(() => {
+    if (props.route.params) {
+      const params = props.route.params;
+      setName(params.name);
+      setUsername(params.username);
+      setUrl(params.url);
+      setPassword(params.password);
+    }
+  }, []);
+
+  const updateCred = () => {
     firestore()
       .collection('credentials')
-      .add({
+      .doc(props.route.params.id)
+      .update({
         name,
         username,
         url,
         password,
       })
       .then(() => {
-        console.log('Added!');
+        Alert.alert('Updated.');
+        props.navigation.goBack();
       });
   };
 
@@ -73,8 +87,8 @@ export default function Add() {
           color="gray"
         />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={saveCred}>
-        <Text style={styles.buttonText}>Add</Text>
+      <TouchableOpacity style={styles.button} onPress={updateCred}>
+        <Text style={styles.buttonText}>Update</Text>
       </TouchableOpacity>
     </View>
   );
@@ -108,6 +122,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
   },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+  },
   buttonIcon: {
     borderRadius: 5,
     justifyContent: 'center',
@@ -117,10 +135,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     width: 40,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
   },
   error: {
     color: 'red',

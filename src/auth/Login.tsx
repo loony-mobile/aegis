@@ -67,9 +67,7 @@ function Login({setComponentState, authContext}: any): React.JSX.Element {
               );
             }
           })
-          .catch(error =>
-            console.log('Error checking biometric availability: ', error),
-          );
+          .catch(() => {});
       })();
     }
   }, []);
@@ -111,7 +109,6 @@ function Login({setComponentState, authContext}: any): React.JSX.Element {
           email,
           password,
         );
-        console.log(userCredential);
         const user = {
           uid: userCredential.user.uid,
           email: userCredential.user.email,

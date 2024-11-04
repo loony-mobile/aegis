@@ -10,7 +10,7 @@ export default function Profile(props: any) {
   const handleLogout = async () => {
     auth()
       .signOut()
-      .then(() => console.log('User signed out!'));
+      .then(() => {});
     await AsyncStorage.clear();
     setAuthContext({
       user: null,

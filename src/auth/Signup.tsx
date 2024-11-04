@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -14,9 +14,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
-import {Auth} from '../types';
 
-function Signup({setComponentState}): React.JSX.Element {
+function Signup({setComponentState}: any): React.JSX.Element {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
