@@ -6,15 +6,10 @@
  */
 
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import {View, TextInput, StyleSheet, TouchableOpacity} from 'react-native';
 import auth from '@react-native-firebase/auth';
-
+import {theme} from '../styles';
+import Text from '../components/Text';
 function Signup({setComponentState}: any): React.JSX.Element {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -66,12 +61,19 @@ function Signup({setComponentState}: any): React.JSX.Element {
       }
     }
   };
-
+  const handleLogin = () => {
+    setComponentState('LOGIN');
+  };
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Signup</Text>
+    <View style={[styles.container, theme.dark]}>
+      <View style={styles.logoCon}>
+        <View style={styles.logo}>
+          <Text style={styles.title}>Aegis</Text>
+        </View>
+      </View>
 
       <TextInput
+        placeholderTextColor="#ccc"
         style={styles.input}
         placeholder="Email"
         value={email}
@@ -82,6 +84,7 @@ function Signup({setComponentState}: any): React.JSX.Element {
       {emailError ? <Text style={styles.error}>{emailError}</Text> : null}
 
       <TextInput
+        placeholderTextColor="#ccc"
         style={styles.input}
         placeholder="Password"
         value={password}
@@ -93,6 +96,10 @@ function Signup({setComponentState}: any): React.JSX.Element {
       <TouchableOpacity style={styles.button} onPress={handleSignup}>
         <Text style={styles.buttonText}>Signup</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity style={styles.createAccount} onPress={handleLogin}>
+        <Text style={styles.createAccountText}>Login</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -103,6 +110,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    justifyContent: 'center',
+  },
+  logoCon: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 20,
+  },
+  logo: {
+    borderRadius: 25,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 25,
   },
   title: {
     fontSize: 24,
@@ -112,24 +134,34 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    borderColor: '#ccc',
+    borderColor: '#8d8d8d',
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 10,
     marginBottom: 10,
     paddingHorizontal: 10,
-    backgroundColor: '#fff',
+    backgroundColor: '#363636',
+    color: '#ccc',
   },
   button: {
     height: 50,
-    backgroundColor: '#007BFF',
-    borderRadius: 5,
+    backgroundColor: '#e0e0e0',
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10,
+    fontWeight: 'bold',
   },
   buttonText: {
-    color: '#fff',
+    color: '#2d2d2d',
     fontSize: 18,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  createAccount: {
+    marginTop: 20,
+  },
+  createAccountText: {
+    textAlign: 'center',
   },
   error: {
     color: 'red',

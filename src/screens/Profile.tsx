@@ -3,6 +3,7 @@ import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
 import {Auth} from '../types';
+import {theme} from '../styles';
 
 export default function Profile(props: any) {
   const {setAuthContext} = props.route.params.authContext;
@@ -19,7 +20,7 @@ export default function Profile(props: any) {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, theme.dark]}>
       <TouchableOpacity style={styles.button} onPress={handleLogout}>
         <Text style={styles.buttonText}>Sign Out</Text>
       </TouchableOpacity>
@@ -49,15 +50,18 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 50,
-    backgroundColor: '#007BFF',
-    borderRadius: 5,
+    backgroundColor: '#e0e0e0',
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10,
+    fontWeight: 'bold',
   },
   buttonText: {
-    color: '#fff',
+    color: '#2d2d2d',
     fontSize: 18,
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
   error: {
     color: 'red',

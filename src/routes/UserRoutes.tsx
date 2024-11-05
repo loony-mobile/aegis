@@ -1,4 +1,3 @@
-// App.js
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -23,15 +22,24 @@ const tabBarIcon = ({route, focused, color, size}: any) => {
 };
 
 const screenOptions = ({route}: any) => ({
+  headerStyle: {
+    backgroundColor: '#363636',
+  },
+  headerTintColor: '#fff',
+  headerTitleStyle: {
+    fontWeight: 'bold',
+  },
+  tabBarOptions: {showLabel: false},
   tabBarIcon: ({focused, color, size}: any) =>
     tabBarIcon({
       route,
       focused,
-      color,
+      color: '#cccccc',
       size,
     }),
-  tabBarActiveTintColor: '#007BFF',
-  tabBarInactiveTintColor: 'gray',
+  tabBarActiveTintColor: '#cccccc',
+  tabBarInactiveTintColor: '#cccccc',
+  tabBarStyle: {backgroundColor: '#2d2d2d'},
 });
 
 // Create a Bottom Tab Navigator

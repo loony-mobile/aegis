@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {theme} from '../styles';
 
 export default function Add() {
   const [isHidden, setIsHidden] = useState(false);
@@ -35,8 +36,9 @@ export default function Add() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, theme.dark]}>
       <TextInput
+        placeholderTextColor="#ccc"
         style={styles.input}
         placeholder="Name"
         value={name}
@@ -45,6 +47,7 @@ export default function Add() {
       />
 
       <TextInput
+        placeholderTextColor="#ccc"
         style={styles.input}
         placeholder="Url"
         value={url}
@@ -52,6 +55,7 @@ export default function Add() {
         autoCapitalize="none"
       />
       <TextInput
+        placeholderTextColor="#ccc"
         style={styles.input}
         placeholder="Email"
         value={username}
@@ -60,6 +64,7 @@ export default function Add() {
       />
 
       <TextInput
+        placeholderTextColor="#ccc"
         style={styles.input}
         placeholder="Password"
         value={password}
@@ -93,20 +98,28 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    borderColor: '#ccc',
+    borderColor: '#8d8d8d',
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 10,
     marginBottom: 10,
     paddingHorizontal: 10,
-    backgroundColor: '#fff',
+    backgroundColor: '#363636',
+    color: '#ccc',
   },
   button: {
     height: 50,
-    backgroundColor: '#007BFF',
-    borderRadius: 5,
+    backgroundColor: '#e0e0e0',
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10,
+    fontWeight: 'bold',
+  },
+  buttonText: {
+    color: '#2d2d2d',
+    fontSize: 18,
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
   buttonIcon: {
     borderRadius: 5,
@@ -114,13 +127,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 5,
     paddingVertical: 5,
-    borderWidth: 1,
-    borderColor: '#ccc',
     width: 40,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
   },
   error: {
     color: 'red',

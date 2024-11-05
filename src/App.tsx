@@ -1,4 +1,5 @@
 import React from 'react';
+
 import LoadingScreen from './components/screens/LoadingScreen';
 import AuthContext, {AuthProvider} from './context/AuthContext';
 import AuthRoutes from './routes/AuthRoutes';

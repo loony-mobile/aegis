@@ -1,6 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react';
 import {
-  Text,
   View,
   StyleSheet,
   FlatList,
@@ -11,9 +10,10 @@ import {
 import firestore from '@react-native-firebase/firestore';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import TextComponent from '../components/Text';
+import Text from '../components/Text';
 import {createStackNavigator} from '@react-navigation/stack';
 import Edit from './Edit';
+import {theme} from '../styles';
 const Stack = createStackNavigator();
 
 const Card = (props: any) => {
@@ -59,27 +59,23 @@ const Card = (props: any) => {
   };
 
   return (
-    <View key={index} style={styles.card}>
+    <View key={index} style={[styles.card, theme.cardStyles]}>
       <View>
         <Text style={styles.title}>{item.name}</Text>
       </View>
       <View style={styles.flexRow}>
-        <Text style={styles.label}>Username: </Text>
-        <TextComponent>{item.username}</TextComponent>
+        <Text style={styles.label}>Username </Text>
+        <Text>{item.username}</Text>
       </View>
       <View style={styles.flexRow}>
-        <Text style={styles.label}>Url: </Text>
-        <TextComponent>{item.url}</TextComponent>
+        <Text style={styles.label}>Url </Text>
+        <Text>{item.url}</Text>
       </View>
       <View style={styles.flexRow}>
-        <Text style={styles.label}>Password:</Text>
+        <Text style={styles.label}>Password</Text>
         <View style={[styles.flexRow, styles.spaceBetween]}>
           <View style={styles.flexRow}>
-            {isHidden ? (
-              <TextComponent>********</TextComponent>
-            ) : (
-              <TextComponent>{item.password}</TextComponent>
-            )}
+            {isHidden ? <Text>********</Text> : <Text>{item.password}</Text>}
           </View>
         </View>
       </View>
@@ -133,7 +129,8 @@ const Creds = (props: any) => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, {backgroundColor: theme.dark.backgroundColor}]}>
       <FlatList
         data={creds}
         renderItem={(item: any) => <Card {...item} {...props} />}
@@ -165,6 +162,7 @@ const styles = StyleSheet.create({
     flex: 1,
     display: 'flex',
     flexDirection: 'row',
+    paddingVertical: 2,
   },
   spaceBetween: {justifyContent: 'space-between'},
   flexEnd: {justifyContent: 'flex-end'},
@@ -175,7 +173,6 @@ const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
-    backgroundColor: '#fff',
     borderRadius: 8,
     overflow: 'hidden',
     shadowColor: '#000',
@@ -200,7 +197,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   title: {
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 8,
   },
@@ -214,8 +211,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 5,
     paddingVertical: 5,
-    borderWidth: 1,
-    borderColor: '#ccc',
+    marginRight: 10,
   },
   buttonText: {
     color: '#fff',

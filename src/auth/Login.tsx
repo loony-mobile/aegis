@@ -8,7 +8,6 @@
 import React, {useState, useEffect} from 'react';
 import {
   View,
-  Text,
   TextInput,
   StyleSheet,
   Alert,
@@ -18,7 +17,9 @@ import ReactNativeBiometrics, {BiometryTypes} from 'react-native-biometrics';
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import Text from '../components/Text';
 import {Auth} from '../types';
+import {theme} from '../styles';
 
 const rnBiometrics = new ReactNativeBiometrics();
 const biometricEnabled = false;
@@ -131,10 +132,15 @@ function Login({setComponentState, authContext}: any): React.JSX.Element {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+    <View style={[styles.container, theme.dark]}>
+      <View style={styles.logoCon}>
+        <View style={styles.logo}>
+          <Text style={styles.title}>Aegis</Text>
+        </View>
+      </View>
 
       <TextInput
+        placeholderTextColor="#ccc"
         style={styles.input}
         placeholder="Email"
         value={email}
@@ -145,6 +151,7 @@ function Login({setComponentState, authContext}: any): React.JSX.Element {
       {emailError ? <Text style={styles.error}>{emailError}</Text> : null}
 
       <TextInput
+        placeholderTextColor="#ccc"
         style={styles.input}
         placeholder="Password"
         value={password}
@@ -157,8 +164,8 @@ function Login({setComponentState, authContext}: any): React.JSX.Element {
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={handleSignup}>
-        <Text style={styles.buttonText}>Signup</Text>
+      <TouchableOpacity style={styles.createAccount} onPress={handleSignup}>
+        <Text style={styles.createAccountText}>Create Account</Text>
       </TouchableOpacity>
     </View>
   );
@@ -170,6 +177,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    justifyContent: 'center',
+  },
+  logoCon: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 20,
+  },
+  logo: {
+    borderRadius: 25,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 25,
   },
   title: {
     fontSize: 24,
@@ -179,24 +201,34 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    borderColor: '#ccc',
+    borderColor: '#8d8d8d',
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 10,
     marginBottom: 10,
     paddingHorizontal: 10,
-    backgroundColor: '#fff',
+    backgroundColor: '#363636',
+    color: '#ccc',
   },
   button: {
     height: 50,
-    backgroundColor: '#007BFF',
-    borderRadius: 5,
+    backgroundColor: '#e0e0e0',
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10,
+    fontWeight: 'bold',
   },
   buttonText: {
-    color: '#fff',
+    color: '#2d2d2d',
     fontSize: 18,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  createAccount: {
+    marginTop: 20,
+  },
+  createAccountText: {
+    textAlign: 'center',
   },
   error: {
     color: 'red',

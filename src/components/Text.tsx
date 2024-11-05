@@ -1,11 +1,12 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Text, StyleSheet} from 'react-native';
+import {Text} from 'react-native';
+import {theme} from '../styles/index';
 
-export default function TextComponent({children}: any) {
-  return <Text style={styles}>{children}</Text>;
+export default function TextComponent({children, style}: any) {
+  return (
+    <Text style={[{color: theme.dark.textColor, fontSize: 16}, style]}>
+      {children}
+    </Text>
+  );
 }
-
-const styles = StyleSheet.create({
-  fontSize: 16,
-  color: '#2d2d2d',
-});
