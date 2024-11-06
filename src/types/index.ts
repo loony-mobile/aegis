@@ -10,3 +10,8 @@ export enum Auth {
     FALSE = 2,
     LOADING = 3
 }
+
+export enum Indicator {
+    LOADING,
+    IDLE
+}

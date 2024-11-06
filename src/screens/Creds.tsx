@@ -111,7 +111,7 @@ const Card = (props: any) => {
 
 const Creds = (props: any) => {
   const [creds, setCreds] = useState<any[] | null>(null);
-  const [refreshing, setRefreshing] = useState(false);
+  const [refreshing, setRefreshing] = useState(true);
 
   useEffect(() => {
     fetchData();

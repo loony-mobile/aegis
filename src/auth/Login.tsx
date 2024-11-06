@@ -12,13 +12,14 @@ import {
   StyleSheet,
   Alert,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import ReactNativeBiometrics, {BiometryTypes} from 'react-native-biometrics';
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Text from '../components/Text';
-import {Auth} from '../types';
+import {Auth, Indicator} from '../types';
 import {theme} from '../styles';
 
 const rnBiometrics = new ReactNativeBiometrics();
@@ -30,6 +31,7 @@ function Login({setComponentState, authContext}: any): React.JSX.Element {
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [loadingIndicator, setLoadingIndicator] = useState(Indicator.IDLE);
 
   const handleBiometricAuthentication = () => {
     rnBiometrics
@@ -80,6 +82,7 @@ function Login({setComponentState, authContext}: any): React.JSX.Element {
   };
 
   const handleLogin = async () => {
+    setLoadingIndicator(Indicator.LOADING);
     let valid = true;
 
     // Reset error messages
@@ -121,9 +124,13 @@ function Login({setComponentState, authContext}: any): React.JSX.Element {
           auth: Auth.TRUE,
           user,
         });
+        setLoadingIndicator(Indicator.IDLE);
       } catch (error) {
+        setLoadingIndicator(Indicator.IDLE);
         console.error(error);
       }
+    } else {
+      setLoadingIndicator(Indicator.IDLE);
     }
   };
 
@@ -161,7 +168,11 @@ function Login({setComponentState, authContext}: any): React.JSX.Element {
       {passwordError ? <Text style={styles.error}>{passwordError}</Text> : null}
 
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
+        {loadingIndicator === Indicator.LOADING ? (
+          <ActivityIndicator color="#2d2d2d" size="large" />
+        ) : (
+          <Text style={styles.buttonText}>Login</Text>
+        )}
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.createAccount} onPress={handleSignup}>
