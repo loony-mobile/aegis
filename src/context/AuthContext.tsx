@@ -35,6 +35,12 @@ export const AuthProvider = ({children}: PropsWithChildren) => {
           // If the session is expired, clear the token
           await AsyncStorage.removeItem('AUTH_USER');
           await AsyncStorage.removeItem('AUTH_TOKEN_EXPIRY');
+          setTimeout(() => {
+            setAuthContext({
+              user: null,
+              auth: Auth.FALSE,
+            });
+          }, 1000);
         } else {
           setTimeout(() => {
             setAuthContext({

@@ -36,7 +36,7 @@ export default function Add() {
   };
 
   return (
-    <View style={[styles.container, theme.dark]}>
+    <View style={[styles.container, theme.dark.con]}>
       <TextInput
         placeholderTextColor="#ccc"
         style={styles.input}

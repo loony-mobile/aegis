@@ -132,7 +132,7 @@ function Login({setComponentState, authContext}: any): React.JSX.Element {
   };
 
   return (
-    <View style={[styles.container, theme.dark]}>
+    <View style={[theme.dark.con, styles.container]}>
       <View style={styles.logoCon}>
         <View style={styles.logo}>
           <Text style={styles.title}>Aegis</Text>

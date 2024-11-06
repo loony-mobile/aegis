@@ -5,8 +5,6 @@ import {theme} from '../styles/index';
 
 export default function TextComponent({children, style}: any) {
   return (
-    <Text style={[{color: theme.dark.textColor, fontSize: 16}, style]}>
-      {children}
-    </Text>
+    <Text style={[theme.dark.text, {fontSize: 16}, style]}>{children}</Text>
   );
 }

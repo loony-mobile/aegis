@@ -1,14 +1,24 @@
 export const theme = {
     dark: {
-        backgroundColor: '#2d2d2d',
-        textColor: '#dbdbdb',
+        con: {
+            backgroundColor: '#2d2d2d',
+        },
+        text: {
+            color: '#cccccc',
+        },
+        card: {
+            backgroundColor: '#363636',
+        },
     },
     light: {
-        backgroundColor: '#fff',
-        textColor: '#2d2d2d',
-    },
-    cardStyles: {
-        backgroundColor: '#363636',
-        textColor: '#cccccc',
+        con: {
+            backgroundColor: '#fff',
+        },
+        text: {
+            color: '#2d2d2d',
+        },
+        card: {
+            backgroundColor: '#ccc',
+        },
     },
 };

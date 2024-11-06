@@ -31,8 +31,7 @@ const LoadingScreen = () => {
   }, [fadeAnim]);
 
   return (
-    <View
-      style={[styles.container, {backgroundColor: theme.dark.backgroundColor}]}>
+    <View style={[theme.dark.con, styles.container]}>
       {/* Logo or Text with Fading Animation */}
       <Animated.View style={{opacity: fadeAnim}}>
         <Text style={styles.logoText}>Aegis</Text>
@@ -52,7 +51,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#4A90E2', // Change color to match your brand
   },
   logoText: {
     fontSize: 40,

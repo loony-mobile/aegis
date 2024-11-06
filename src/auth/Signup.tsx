@@ -65,7 +65,7 @@ function Signup({setComponentState}: any): React.JSX.Element {
     setComponentState('LOGIN');
   };
   return (
-    <View style={[styles.container, theme.dark]}>
+    <View style={[styles.container, theme.dark.con]}>
       <View style={styles.logoCon}>
         <View style={styles.logo}>
           <Text style={styles.title}>Aegis</Text>

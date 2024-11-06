@@ -50,7 +50,7 @@ export default function Edit(props: any) {
   };
 
   return (
-    <View style={[styles.container, theme.dark]}>
+    <View style={[styles.container, theme.dark.con]}>
       <TextInput
         placeholderTextColor="#ccc"
         style={styles.input}

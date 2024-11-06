@@ -59,8 +59,8 @@ const Card = (props: any) => {
   };
 
   return (
-    <View key={index} style={[styles.card, theme.cardStyles]}>
-      <View>
+    <View key={index} style={[theme.dark.card, styles.card]}>
+      <View style={styles.titleContainer}>
         <Text style={styles.title}>{item.name}</Text>
       </View>
       <View style={styles.flexRow}>
@@ -129,8 +129,7 @@ const Creds = (props: any) => {
   }, []);
 
   return (
-    <View
-      style={[styles.container, {backgroundColor: theme.dark.backgroundColor}]}>
+    <View style={[theme.dark.con, styles.container]}>
       <FlatList
         data={creds}
         renderItem={(item: any) => <Card {...item} {...props} />}
@@ -197,9 +196,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   title: {
-    fontSize: 24,
+    fontSize: 21,
     fontWeight: 'bold',
     marginBottom: 8,
+  },
+  titleContainer: {
+    borderBottomWidth: 0.5,
+    borderBottomColor: 'gray',
+    marginBottom: 10,
   },
   description: {
     fontSize: 14,
