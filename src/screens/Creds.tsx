@@ -118,9 +118,14 @@ const Creds = (props: any) => {
   }, []);
 
   const fetchData = async () => {
-    const credentials = await firestore().collection('credentials').get();
-    setCreds(credentials.docs.map(x => ({...x.data(), id: x.id})));
-    setRefreshing(false);
+    try {
+      const credentials = await firestore().collection('credentials').get();
+      setCreds(credentials.docs.map(x => ({...x.data(), id: x.id})));
+      setRefreshing(false);
+      console.log('credentials');
+    } catch (error) {
+      console.log('error', error);
+    }
   };
 
   const onRefresh = useCallback(() => {

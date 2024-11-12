@@ -6,7 +6,6 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import firestore from '@react-native-firebase/firestore';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {theme} from '../styles';
 
@@ -18,17 +17,10 @@ export default function Add() {
   const [password, setPassword] = useState('');
 
   const saveCred = () => {
-    firestore()
-      .collection('credentials')
-      .add({
-        name,
-        username,
-        url,
-        password,
-      })
-      .then(() => {
-        console.log('Added!');
-      });
+    fetch('', {
+      method: 'POST',
+      body: JSON.stringify({name, username, url, password}),
+    });
   };
 
   const viewPassword = () => {

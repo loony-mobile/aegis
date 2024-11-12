@@ -15,8 +15,8 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import ReactNativeBiometrics, {BiometryTypes} from 'react-native-biometrics';
-import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 import Text from '../components/Text';
 import {Auth, Indicator} from '../types';
@@ -25,13 +25,18 @@ import {theme} from '../styles';
 const rnBiometrics = new ReactNativeBiometrics();
 const biometricEnabled = false;
 
-function Login({setComponentState, authContext}: any): React.JSX.Element {
+function Login({
+  setComponentState,
+  authContext,
+  appContext,
+}: any): React.JSX.Element {
   const {setAuthContext} = authContext;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [loadingIndicator, setLoadingIndicator] = useState(Indicator.IDLE);
+  const [appError, setAppError] = useState('');
 
   const handleBiometricAuthentication = () => {
     rnBiometrics
@@ -109,21 +114,26 @@ function Login({setComponentState, authContext}: any): React.JSX.Element {
 
     if (valid) {
       try {
-        const userCredential = await auth().signInWithEmailAndPassword(
-          email,
-          password,
-        );
-        const user = {
-          uid: userCredential.user.uid,
-          email: userCredential.user.email,
-        };
-        const expiryTime = Date.now() + 60 * 60 * 1000; // 1 hour in milliseconds
-        await AsyncStorage.setItem('AUTH_USER', JSON.stringify(user));
-        await AsyncStorage.setItem('AUTH_TOKEN_EXPIRY', expiryTime.toString());
-        setAuthContext({
-          auth: Auth.TRUE,
-          user,
-        });
+        let url = `${appContext.base_url}/api/auth/login`;
+        axios
+          .post(url, {email, password})
+          .then(async ({data}) => {
+            const expiryTime = Date.now() + 60 * 60 * 1000; // 1 hour in milliseconds
+            await AsyncStorage.setItem('AUTH_USER', JSON.stringify(data));
+            await AsyncStorage.setItem(
+              'AUTH_TOKEN_EXPIRY',
+              expiryTime.toString(),
+            );
+            setAuthContext({
+              auth: Auth.TRUE,
+              user: data,
+            });
+          })
+          .catch(e => {
+            if (e.response && e.response.data) {
+              setAppError(e.response.data.message);
+            }
+          });
         setLoadingIndicator(Indicator.IDLE);
       } catch (error) {
         setLoadingIndicator(Indicator.IDLE);
@@ -145,6 +155,8 @@ function Login({setComponentState, authContext}: any): React.JSX.Element {
           <Text style={styles.title}>Aegis</Text>
         </View>
       </View>
+
+      {appError ? <Text style={styles.error}>{appError}</Text> : null}
 
       <TextInput
         placeholderTextColor="#ccc"

@@ -75,3 +75,4 @@ yarn-error.log
 
 modules/
 deno.lock
+.env

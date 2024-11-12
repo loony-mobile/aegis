@@ -2,17 +2,14 @@ import React, {useState} from 'react';
 import Login from '../auth/Login';
 import Signup from '../auth/Signup';
 
-export default function AuthRoutes({authContext}: any) {
+export default function AuthRoutes(props: any) {
   const [state, setComponentState] = useState('LOGIN');
   return (
     <>
       {state === 'LOGIN' ? (
-        <Login
-          setComponentState={setComponentState}
-          authContext={authContext}
-        />
+        <Login {...props} setComponentState={setComponentState} />
       ) : (
-        <Signup setComponentState={setComponentState} />
+        <Signup {...props} setComponentState={setComponentState} />
       )}
     </>
   );
