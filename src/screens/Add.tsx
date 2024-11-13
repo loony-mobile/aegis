@@ -8,19 +8,36 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {theme} from '../styles';
+import axios from 'axios';
+import {handleError} from '../utils';
 
-export default function Add() {
+export default function Add(props: any) {
+  const {appContext, authContext} = props.route.params;
+  const {base_url} = appContext;
+  const user_id: number = authContext.user.uid;
+
   const [isHidden, setIsHidden] = useState(false);
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [url, setUrl] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const saveCred = () => {
-    fetch('', {
-      method: 'POST',
-      body: JSON.stringify({name, username, url, password}),
-    });
+    setError('');
+    axios
+      .post(`${base_url}/api/creds/edit`, {
+        user_id,
+        name,
+        username,
+        url,
+        password,
+        metadata: '',
+      })
+      .then(() => {})
+      .catch(e => {
+        handleError(e, setError);
+      });
   };
 
   const viewPassword = () => {
@@ -29,6 +46,8 @@ export default function Add() {
 
   return (
     <View style={[styles.container, theme.dark.con]}>
+      {error ? <Text style={styles.error}>{error}</Text> : null}
+
       <TextInput
         placeholderTextColor="#ccc"
         style={styles.input}

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState, useCallback} from 'react';
 import {
   View,
@@ -7,16 +8,21 @@ import {
   Alert,
   RefreshControl,
 } from 'react-native';
-import firestore from '@react-native-firebase/firestore';
+import axios from 'axios';
 import Icon from 'react-native-vector-icons/Ionicons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Text from '../components/Text';
 import {createStackNavigator} from '@react-navigation/stack';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import Text from '../components/Text';
 import Edit from './Edit';
 import {theme} from '../styles';
+import {handleError} from '../utils';
 const Stack = createStackNavigator();
 
 const Card = (props: any) => {
+  const {appContext} = props.route.params;
+  const {base_url} = appContext;
+  // const user_id: number = authContext.user.uid;
   const {item, index, navigation} = props;
 
   const [isHidden, setIsHidden] = useState(true);
@@ -26,12 +32,13 @@ const Card = (props: any) => {
   };
 
   const handleDelete = () => {
-    firestore()
-      .collection('credentials')
-      .doc(item.id)
-      .delete()
-      .then(() => {
-        console.log('User deleted!');
+    axios
+      .post(`${base_url}/api/creds/delete/${item.uid}`)
+      .then((data: any) => {
+        console.log('data', data);
+      })
+      .catch(e => {
+        console.log(e.response);
       });
   };
 
@@ -110,22 +117,29 @@ const Card = (props: any) => {
 };
 
 const Creds = (props: any) => {
+  const {appContext, authContext} = props.route.params;
+  const user_id = authContext.user.uid;
+  const {base_url} = appContext;
+
   const [creds, setCreds] = useState<any[] | null>(null);
   const [refreshing, setRefreshing] = useState(true);
+  const [_, setError] = useState('');
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  const fetchData = async () => {
-    try {
-      const credentials = await firestore().collection('credentials').get();
-      setCreds(credentials.docs.map(x => ({...x.data(), id: x.id})));
-      setRefreshing(false);
-      console.log('credentials');
-    } catch (error) {
-      console.log('error', error);
-    }
+  const fetchData = () => {
+    axios
+      .get(`${base_url}/api/creds/get/${user_id}`)
+      .then(({data}) => {
+        setCreds(data);
+      })
+      .catch(e => {
+        console.log(e.response);
+        handleError(e, setError);
+      });
+    setRefreshing(false);
   };
 
   const onRefresh = useCallback(() => {
@@ -147,13 +161,21 @@ const Creds = (props: any) => {
   );
 };
 
-export default function Routes() {
+export default function Routes(props: any) {
   return (
     <Stack.Navigator
       initialRouteName="Creds"
       screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Creds" component={Creds} />
-      <Stack.Screen name="Edit" component={Edit} />
+      <Stack.Screen
+        name="Creds"
+        component={Creds}
+        initialParams={props.route.params}
+      />
+      <Stack.Screen
+        name="Edit"
+        component={Edit}
+        initialParams={props.route.params}
+      />
     </Stack.Navigator>
   );
 }

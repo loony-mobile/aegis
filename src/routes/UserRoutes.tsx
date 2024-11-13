@@ -49,8 +49,8 @@ export default function UserRoutes(props: any) {
   return (
     <NavigationContainer>
       <Tab.Navigator initialRouteName="Home" screenOptions={screenOptions}>
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Add" component={AddScreen} />
+        <Tab.Screen name="Home" component={HomeScreen} initialParams={props} />
+        <Tab.Screen name="Add" component={AddScreen} initialParams={props} />
         <Tab.Screen
           name="Profile"
           component={ProfileScreen}

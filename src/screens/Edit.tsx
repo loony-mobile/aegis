@@ -5,19 +5,23 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  Alert,
   TouchableOpacity,
 } from 'react-native';
-import firestore from '@react-native-firebase/firestore';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {theme} from '../styles';
+import axios from 'axios';
+import {handleError} from '../utils';
 
 export default function Edit(props: any) {
+  const {appContext} = props.route.params;
+  const {base_url} = appContext;
+
   const [isHidden, setIsHidden] = useState(false);
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [url, setUrl] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     if (props.route.params) {
@@ -30,18 +34,22 @@ export default function Edit(props: any) {
   }, []);
 
   const updateCred = () => {
-    firestore()
-      .collection('credentials')
-      .doc(props.route.params.id)
-      .update({
+    setError('');
+    axios
+      .post(`${base_url}/api/creds/edit`, {
+        uid: props.route.params.uid,
         name,
         username,
         url,
         password,
+        metadata: '',
       })
-      .then(() => {
-        Alert.alert('Updated.');
-        props.navigation.goBack();
+      .then((data: any) => {
+        console.log('data', data);
+      })
+      .catch(e => {
+        console.log(e.response);
+        handleError(e, setError);
       });
   };
 
@@ -51,6 +59,8 @@ export default function Edit(props: any) {
 
   return (
     <View style={[styles.container, theme.dark.con]}>
+      {error ? <Text style={styles.error}>{error}</Text> : null}
+
       <TextInput
         placeholderTextColor="#ccc"
         style={styles.input}

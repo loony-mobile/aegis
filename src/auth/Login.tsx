@@ -1,10 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React, {useState, useEffect} from 'react';
 import {
   View,
@@ -17,6 +10,7 @@ import {
 import ReactNativeBiometrics, {BiometryTypes} from 'react-native-biometrics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import {handleError} from '../utils';
 
 import Text from '../components/Text';
 import {Auth, Indicator} from '../types';
@@ -129,11 +123,7 @@ function Login({
               user: data,
             });
           })
-          .catch(e => {
-            if (e.response && e.response.data) {
-              setAppError(e.response.data.message);
-            }
-          });
+          .catch(e => handleError(e, setAppError));
         setLoadingIndicator(Indicator.IDLE);
       } catch (error) {
         setLoadingIndicator(Indicator.IDLE);
