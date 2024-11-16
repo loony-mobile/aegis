@@ -83,7 +83,23 @@ export const styles = StyleSheet.create({
       marginTop: 10,
       fontWeight: 'bold',
     },
-    buttonText: {
+    button_delete: {
+      height: 50,
+      backgroundColor: 'transparent',
+      elevation: 2,
+      borderRadius: 10,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 10,
+      fontWeight: 'bold',
+    },
+    button_delete_text: {
+      color: '#ffffff',
+      fontSize: 18,
+      textAlign: 'center',
+      fontWeight: 'bold',
+    },
+    text: {
       color: '#2d2d2d',
       fontSize: 18,
       textAlign: 'center',

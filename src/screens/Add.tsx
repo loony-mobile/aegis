@@ -6,27 +6,27 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {theme} from '../styles';
 import axios from 'axios';
 import {handleError} from '../utils';
+import ButtonTextInput from '../components/ButtonTextInput';
 
 export default function Add(props: any) {
   const {appContext, authContext} = props.route.params;
   const {base_url} = appContext;
   const user_id: number = authContext.user.uid;
 
-  const [isHidden, setIsHidden] = useState(false);
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [url, setUrl] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
 
   const saveCred = () => {
     setError('');
     axios
-      .post(`${base_url}/api/creds/edit`, {
+      .post(`${base_url}/api/creds/add`, {
         user_id,
         name,
         username,
@@ -40,8 +40,8 @@ export default function Add(props: any) {
       });
   };
 
-  const viewPassword = () => {
-    setIsHidden(!isHidden);
+  const onIconPress = () => {
+    setSecureTextEntry(!secureTextEntry);
   };
 
   return (
@@ -74,23 +74,15 @@ export default function Add(props: any) {
         autoCapitalize="none"
       />
 
-      <TextInput
-        placeholderTextColor="#ccc"
-        style={styles.input}
+      <ButtonTextInput
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
-        secureTextEntry={isHidden ? false : true}
+        onIconPress={onIconPress}
+        secureTextEntry={secureTextEntry}
       />
-      <TouchableOpacity onPress={viewPassword} style={styles.buttonIcon}>
-        <Icon
-          name={isHidden ? 'eye-outline' : 'eye-off-outline'}
-          size={18}
-          color="gray"
-        />
-      </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={saveCred}>
-        <Text style={styles.buttonText}>Add</Text>
+        <Text style={styles.text}>Add</Text>
       </TouchableOpacity>
     </View>
   );
@@ -126,7 +118,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontWeight: 'bold',
   },
-  buttonText: {
+  text: {
     color: '#2d2d2d',
     fontSize: 18,
     textAlign: 'center',

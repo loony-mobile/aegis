@@ -5,13 +5,10 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  Alert,
   RefreshControl,
 } from 'react-native';
 import axios from 'axios';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {createStackNavigator} from '@react-navigation/stack';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Text from '../components/Text';
 import Edit from './Edit';
@@ -20,99 +17,28 @@ import {handleError} from '../utils';
 const Stack = createStackNavigator();
 
 const Card = (props: any) => {
-  const {appContext} = props.route.params;
-  const {base_url} = appContext;
-  // const user_id: number = authContext.user.uid;
   const {item, index, navigation} = props;
-
-  const [isHidden, setIsHidden] = useState(true);
-
-  const viewPassword = () => {
-    setIsHidden(!isHidden);
-  };
-
-  const handleDelete = () => {
-    axios
-      .post(`${base_url}/api/creds/delete/${item.uid}`)
-      .then((data: any) => {
-        console.log('data', data);
-      })
-      .catch(e => {
-        console.log(e.response);
-      });
-  };
-
-  const confirmDelete = () => {
-    Alert.alert(
-      'Confirm Delete',
-      'Are you sure you want to delete this item?',
-      [
-        {
-          text: 'Cancel',
-          onPress: () => {},
-          style: 'cancel',
-        },
-        {
-          text: 'Delete',
-          onPress: () => handleDelete(),
-          style: 'destructive',
-        },
-      ],
-    );
-  };
 
   const navEdit = () => {
     navigation.navigate('Edit', item);
   };
 
   return (
-    <View key={index} style={[theme.dark.card, styles.card]}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>{item.name}</Text>
-      </View>
-      <View style={styles.flexRow}>
-        <Text style={styles.label}>Username </Text>
-        <Text>{item.username}</Text>
-      </View>
-      <View style={styles.flexRow}>
-        <Text style={styles.label}>Url </Text>
-        <Text>{item.url}</Text>
-      </View>
-      <View style={styles.flexRow}>
-        <Text style={styles.label}>Password</Text>
-        <View style={[styles.flexRow, styles.spaceBetween]}>
-          <View style={styles.flexRow}>
-            {isHidden ? <Text>********</Text> : <Text>{item.password}</Text>}
-          </View>
+    <TouchableOpacity onLongPress={navEdit}>
+      <View key={index} style={[theme.dark.card, styles.card]}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>{item.name}</Text>
+        </View>
+        <View style={styles.flexRow}>
+          <Text style={styles.label}>Username </Text>
+          <Text>{item.username}</Text>
+        </View>
+        <View style={styles.flexRow}>
+          <Text style={styles.label}>Url </Text>
+          <Text>{item.url}</Text>
         </View>
       </View>
-      <View style={styles.passwordContainer}>
-        <Text style={styles.label}>{}</Text>
-        <View style={[styles.flexRow]}>
-          <TouchableOpacity onPress={viewPassword} style={styles.button}>
-            <Icon
-              name={isHidden ? 'eye-outline' : 'eye-off-outline'}
-              size={18}
-              color="gray"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={navEdit} style={styles.button}>
-            <MaterialCommunityIcons
-              name="pencil-outline"
-              size={18}
-              color="gray"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={confirmDelete} style={styles.button}>
-            <MaterialCommunityIcons
-              name="delete-outline"
-              size={18}
-              color="gray"
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -243,7 +169,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     marginRight: 10,
   },
-  buttonText: {
+  text: {
     color: '#fff',
     fontSize: 18,
   },

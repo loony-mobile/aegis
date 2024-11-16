@@ -22,7 +22,7 @@ export default function Profile(props: any) {
   return (
     <View style={[styles.container, theme.dark.con]}>
       <TouchableOpacity style={styles.button} onPress={handleLogout}>
-        <Text style={styles.buttonText}>Sign Out</Text>
+        <Text style={styles.text}>Sign Out</Text>
       </TouchableOpacity>
     </View>
   );
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontWeight: 'bold',
   },
-  buttonText: {
+  text: {
     color: '#2d2d2d',
     fontSize: 18,
     textAlign: 'center',

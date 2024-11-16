@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react';
-import {View, Text, TextInput, StyleSheet} from 'react-native';
+import {View, Text, TextInput, StyleSheet, Alert} from 'react-native';
 import {theme} from '../styles';
-import Button from '../components/Button';
+import Button, {DeleteButton} from '../components/Button';
 import axios from 'axios';
 import {handleError} from '../utils';
 import {Indicator} from '../types';
@@ -30,6 +30,16 @@ export default function Edit(props: any) {
     }
   }, []);
 
+  const handleDelete = () => {
+    console.log(`${base_url}/api/creds/delete/${props.route.params.uid}`);
+    axios
+      .post(`${base_url}/api/creds/delete/${props.route.params.uid}`)
+      .then(() => {})
+      .catch(e => {
+        console.log(e.response);
+      });
+  };
+
   const updateCred = () => {
     setLoadingIndicator(Indicator.LOADING);
     setError('');
@@ -53,6 +63,25 @@ export default function Edit(props: any) {
 
   const onIconPress = () => {
     setSecureTextEntry(!secureTextEntry);
+  };
+
+  const confirmDelete = () => {
+    Alert.alert(
+      'Confirm Delete',
+      'Are you sure you want to delete this item?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: handleDelete,
+          style: 'destructive',
+        },
+      ],
+    );
   };
 
   return (
@@ -98,6 +127,11 @@ export default function Edit(props: any) {
         loadingIndicator={loadingIndicator}
         onPress={updateCred}
       />
+      <DeleteButton
+        text="Delete"
+        loadingIndicator={loadingIndicator}
+        onPress={confirmDelete}
+      />
     </View>
   );
 }
@@ -122,31 +156,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: '#363636',
     color: '#ccc',
-  },
-  button: {
-    height: 50,
-    backgroundColor: '#e0e0e0',
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
-    fontWeight: 'bold',
-  },
-  buttonText: {
-    color: '#2d2d2d',
-    fontSize: 18,
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-  buttonIcon: {
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 5,
-    paddingVertical: 5,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    width: 40,
   },
   error: {
     color: 'red',
