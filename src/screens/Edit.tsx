@@ -1,27 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {View, Text, TextInput, StyleSheet} from 'react-native';
 import {theme} from '../styles';
+import Button from '../components/Button';
 import axios from 'axios';
 import {handleError} from '../utils';
+import {Indicator} from '../types';
+import ButtonTextInput from '../components/ButtonTextInput';
 
 export default function Edit(props: any) {
   const {appContext} = props.route.params;
   const {base_url} = appContext;
 
-  const [isHidden, setIsHidden] = useState(false);
+  const [loadingIndicator, setLoadingIndicator] = useState(Indicator.IDLE);
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [url, setUrl] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
 
   useEffect(() => {
     if (props.route.params) {
@@ -34,6 +31,7 @@ export default function Edit(props: any) {
   }, []);
 
   const updateCred = () => {
+    setLoadingIndicator(Indicator.LOADING);
     setError('');
     axios
       .post(`${base_url}/api/creds/edit`, {
@@ -44,17 +42,17 @@ export default function Edit(props: any) {
         password,
         metadata: '',
       })
-      .then((data: any) => {
-        console.log('data', data);
+      .then(() => {
+        setLoadingIndicator(Indicator.IDLE);
       })
       .catch(e => {
-        console.log(e.response);
         handleError(e, setError);
+        setLoadingIndicator(Indicator.IDLE);
       });
   };
 
-  const viewPassword = () => {
-    setIsHidden(!isHidden);
+  const onIconPress = () => {
+    setSecureTextEntry(!secureTextEntry);
   };
 
   return (
@@ -87,24 +85,19 @@ export default function Edit(props: any) {
         autoCapitalize="none"
       />
 
-      <TextInput
-        placeholderTextColor="#ccc"
-        style={styles.input}
+      <ButtonTextInput
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
-        secureTextEntry={isHidden ? false : true}
+        onIconPress={onIconPress}
+        secureTextEntry={secureTextEntry}
       />
-      <TouchableOpacity onPress={viewPassword} style={styles.buttonIcon}>
-        <Icon
-          name={isHidden ? 'eye-outline' : 'eye-off-outline'}
-          size={18}
-          color="gray"
-        />
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={updateCred}>
-        <Text style={styles.buttonText}>Update</Text>
-      </TouchableOpacity>
+
+      <Button
+        text="Update"
+        loadingIndicator={loadingIndicator}
+        onPress={updateCred}
+      />
     </View>
   );
 }

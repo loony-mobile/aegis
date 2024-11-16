@@ -136,7 +136,6 @@ const Creds = (props: any) => {
         setCreds(data);
       })
       .catch(e => {
-        console.log(e.response);
         handleError(e, setError);
       });
     setRefreshing(false);

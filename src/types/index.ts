@@ -12,6 +12,6 @@ export enum Auth {
 }
 
 export enum Indicator {
-    LOADING,
-    IDLE
+    LOADING = 1,
+    IDLE = 2
 }

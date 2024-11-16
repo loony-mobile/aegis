@@ -1,20 +1,18 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  Alert,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
+import {View, Alert, TouchableOpacity} from 'react-native';
 import ReactNativeBiometrics, {BiometryTypes} from 'react-native-biometrics';
+import ButtonTextInput from '../components/ButtonTextInput';
+import TextInput from '../components/TextInput';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import {handleError} from '../utils';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import {handleError} from '../utils';
 import Text from '../components/Text';
 import {Auth, Indicator} from '../types';
-import {theme} from '../styles';
+import {theme, styles} from '../styles';
+import Button from '../components/Button';
 
 const rnBiometrics = new ReactNativeBiometrics();
 const biometricEnabled = false;
@@ -31,6 +29,7 @@ function Login({
   const [passwordError, setPasswordError] = useState('');
   const [loadingIndicator, setLoadingIndicator] = useState(Indicator.IDLE);
   const [appError, setAppError] = useState('');
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
 
   const handleBiometricAuthentication = () => {
     rnBiometrics
@@ -138,45 +137,44 @@ function Login({
     setComponentState('SIGNUP');
   };
 
+  const onIconPress = () => {
+    setSecureTextEntry(!secureTextEntry);
+  };
+
   return (
     <View style={[theme.dark.con, styles.container]}>
       <View style={styles.logoCon}>
         <View style={styles.logo}>
           <Text style={styles.title}>Aegis</Text>
+          <Text>Safe space to store login</Text>
+          <Text>credentials.</Text>
         </View>
       </View>
+      {appError ? (
+        <View>
+          <Icon name="error" size={18} color="red" />
+          <Text style={styles.error}>{appError}</Text>
+        </View>
+      ) : null}
 
-      {appError ? <Text style={styles.error}>{appError}</Text> : null}
-
-      <TextInput
-        placeholderTextColor="#ccc"
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
+      <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
       {emailError ? <Text style={styles.error}>{emailError}</Text> : null}
 
-      <TextInput
-        placeholderTextColor="#ccc"
-        style={styles.input}
-        placeholder="Password"
+      <ButtonTextInput
         value={password}
         onChangeText={setPassword}
-        secureTextEntry
+        secureTextEntry={secureTextEntry}
+        onIconPress={onIconPress}
+        placeholder="Password"
       />
       {passwordError ? <Text style={styles.error}>{passwordError}</Text> : null}
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        {loadingIndicator === Indicator.LOADING ? (
-          <ActivityIndicator color="#2d2d2d" size="large" />
-        ) : (
-          <Text style={styles.buttonText}>Login</Text>
-        )}
-      </TouchableOpacity>
-
+      <Button
+        text="Login"
+        onPress={handleLogin}
+        loadingIndicator={loadingIndicator}
+      />
+      <View style={theme.border} />
       <TouchableOpacity style={styles.createAccount} onPress={handleSignup}>
         <Text style={styles.createAccountText}>Create Account</Text>
       </TouchableOpacity>
@@ -185,67 +183,3 @@ function Login({
 }
 
 export default Login;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    justifyContent: 'center',
-  },
-  logoCon: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 20,
-  },
-  logo: {
-    borderRadius: 25,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 25,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  input: {
-    height: 50,
-    borderColor: '#8d8d8d',
-    borderWidth: 1,
-    borderRadius: 10,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    backgroundColor: '#363636',
-    color: '#ccc',
-  },
-  button: {
-    height: 50,
-    backgroundColor: '#e0e0e0',
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
-    fontWeight: 'bold',
-  },
-  buttonText: {
-    color: '#2d2d2d',
-    fontSize: 18,
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-  createAccount: {
-    marginTop: 20,
-  },
-  createAccountText: {
-    textAlign: 'center',
-  },
-  error: {
-    color: 'red',
-    marginBottom: 10,
-    fontSize: 14,
-  },
-});

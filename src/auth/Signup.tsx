@@ -1,15 +1,9 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React, {useState} from 'react';
-import {View, TextInput, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, TextInput, TouchableOpacity} from 'react-native';
 import auth from '@react-native-firebase/auth';
-import {theme} from '../styles';
+import {theme, styles} from '../styles';
 import Text from '../components/Text';
+
 function Signup({setComponentState}: any): React.JSX.Element {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -69,6 +63,8 @@ function Signup({setComponentState}: any): React.JSX.Element {
       <View style={styles.logoCon}>
         <View style={styles.logo}>
           <Text style={styles.title}>Aegis</Text>
+          <Text>Safe space to store login</Text>
+          <Text>credentials.</Text>
         </View>
       </View>
 
@@ -97,6 +93,7 @@ function Signup({setComponentState}: any): React.JSX.Element {
         <Text style={styles.buttonText}>Signup</Text>
       </TouchableOpacity>
 
+      <View style={theme.border} />
       <TouchableOpacity style={styles.createAccount} onPress={handleLogin}>
         <Text style={styles.createAccountText}>Login</Text>
       </TouchableOpacity>
@@ -105,67 +102,3 @@ function Signup({setComponentState}: any): React.JSX.Element {
 }
 
 export default Signup;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    justifyContent: 'center',
-  },
-  logoCon: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 20,
-  },
-  logo: {
-    borderRadius: 25,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 25,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  input: {
-    height: 50,
-    borderColor: '#8d8d8d',
-    borderWidth: 1,
-    borderRadius: 10,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    backgroundColor: '#363636',
-    color: '#ccc',
-  },
-  button: {
-    height: 50,
-    backgroundColor: '#e0e0e0',
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
-    fontWeight: 'bold',
-  },
-  buttonText: {
-    color: '#2d2d2d',
-    fontSize: 18,
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-  createAccount: {
-    marginTop: 20,
-  },
-  createAccountText: {
-    textAlign: 'center',
-  },
-  error: {
-    color: 'red',
-    marginBottom: 10,
-    fontSize: 14,
-  },
-});
