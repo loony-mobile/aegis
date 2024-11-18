@@ -39,6 +39,13 @@ export const theme = {
 };
 
 export const styles = StyleSheet.create({
+    boxShadow: {
+      shadowColor: '#000',
+      shadowOffset: {width: 0, height: 2},
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+      elevation: 3,
+    },
     container: {
       flex: 1,
       padding: 20,
@@ -86,7 +93,6 @@ export const styles = StyleSheet.create({
     button_delete: {
       height: 50,
       backgroundColor: 'transparent',
-      elevation: 2,
       borderRadius: 10,
       justifyContent: 'center',
       alignItems: 'center',

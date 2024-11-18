@@ -1,21 +1,17 @@
 import React from 'react';
 import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import auth from '@react-native-firebase/auth';
-import {Auth} from '../types';
+import {AuthStatus} from '../types';
 import {theme} from '../styles';
 
 export default function Profile(props: any) {
   const {setAuthContext} = props.route.params.authContext;
 
   const handleLogout = async () => {
-    auth()
-      .signOut()
-      .then(() => {});
-    await AsyncStorage.clear();
+    await AsyncStorage.removeItem('AUTH_TOKEN_EXPIRY');
     setAuthContext({
       user: null,
-      auth: Auth.FALSE,
+      status: AuthStatus.UNAUTHORIZED,
     });
   };
 

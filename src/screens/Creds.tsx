@@ -12,7 +12,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Text from '../components/Text';
 import Edit from './Edit';
-import {theme} from '../styles';
+import {theme, styles as defaultStyles} from '../styles';
 import {handleError} from '../utils';
 const Stack = createStackNavigator();
 
@@ -25,7 +25,9 @@ const Card = (props: any) => {
 
   return (
     <TouchableOpacity onLongPress={navEdit}>
-      <View key={index} style={[theme.dark.card, styles.card]}>
+      <View
+        key={index}
+        style={[theme.dark.card, styles.card, defaultStyles.boxShadow]}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{item.name}</Text>
         </View>
@@ -126,11 +128,6 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 8,
     overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 3,
     marginVertical: 5,
     marginHorizontal: 5,
     padding: 16,

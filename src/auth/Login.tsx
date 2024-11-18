@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react';
 import {View, Alert, TouchableOpacity} from 'react-native';
 import ReactNativeBiometrics, {BiometryTypes} from 'react-native-biometrics';
@@ -10,12 +11,12 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {handleError} from '../utils';
 import Text from '../components/Text';
-import {Auth, Indicator} from '../types';
+import {Indicator, AuthStatus} from '../types';
 import {theme, styles} from '../styles';
 import Button from '../components/Button';
 
 const rnBiometrics = new ReactNativeBiometrics();
-const biometricEnabled = false;
+const expiryTime = Date.now() + 60 * 60 * 1000; // 1 hour in milliseconds
 
 function Login({
   setComponentState,
@@ -23,25 +24,35 @@ function Login({
   appContext,
 }: any): React.JSX.Element {
   const {setAuthContext} = authContext;
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+
+  const [loginState, setLoginState] = useState({
+    email: '',
+    password: '',
+  });
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [loadingIndicator, setLoadingIndicator] = useState(Indicator.IDLE);
   const [appError, setAppError] = useState('');
   const [secureTextEntry, setSecureTextEntry] = useState(true);
 
-  const handleBiometricAuthentication = () => {
+  const handleBiometricAuthentication = (user: any) => {
     rnBiometrics
       .simplePrompt({
         promptMessage: 'Authenticate with Biometrics',
       })
-      .then(result => {
+      .then(async result => {
         const {success} = result;
-        if (success) {
-          Alert.alert('Authentication successful');
+        if (success && user) {
+          await AsyncStorage.setItem(
+            'AUTH_TOKEN_EXPIRY',
+            expiryTime.toString(),
+          );
+          setAuthContext({
+            status: AuthStatus.AUTHORIZED,
+            user: user && JSON.parse(user),
+          });
         } else {
-          Alert.alert('Authentication failed');
+          Alert.alert('Biometric Authentication failed');
         }
       })
       .catch(() => {
@@ -50,18 +61,24 @@ function Login({
   };
 
   useEffect(() => {
-    if (biometricEnabled) {
-      (async () => {
+    (async () => {
+      const user = await AsyncStorage.getItem('AUTH_USER');
+      const authSession = await AsyncStorage.getItem('AUTH_TOKEN_EXPIRY');
+      if (!user && !authSession) {
+        return;
+      }
+      if (!authSession && user) {
         rnBiometrics
           .isSensorAvailable()
           .then(result => {
             const {available, biometryType} = result;
             if (
               available &&
-              (biometryType === BiometryTypes.TouchID ||
+              (biometryType === BiometryTypes.Biometrics ||
+                biometryType === BiometryTypes.TouchID ||
                 biometryType === BiometryTypes.FaceID)
             ) {
-              handleBiometricAuthentication();
+              handleBiometricAuthentication(user);
             } else {
               Alert.alert(
                 'Biometric authentication is not available on this device.',
@@ -69,11 +86,12 @@ function Login({
             }
           })
           .catch(() => {});
-      })();
-    }
+      }
+    })();
   }, []);
 
   const handleLogin = async () => {
+    const {email, password} = loginState;
     setLoadingIndicator(Indicator.LOADING);
     let valid = true;
 
@@ -99,26 +117,23 @@ function Login({
     if (valid) {
       try {
         let url = `${appContext.base_url}/api/auth/login`;
-        console.log(url);
         axios
           .post(url, {email, password})
           .then(async ({data}) => {
-            const expiryTime = Date.now() + 60 * 60 * 1000; // 1 hour in milliseconds
             await AsyncStorage.setItem('AUTH_USER', JSON.stringify(data));
             await AsyncStorage.setItem(
               'AUTH_TOKEN_EXPIRY',
               expiryTime.toString(),
             );
             setAuthContext({
-              auth: Auth.TRUE,
+              status: AuthStatus.AUTHORIZED,
               user: data,
             });
+            setLoadingIndicator(Indicator.IDLE);
           })
           .catch(e => handleError(e, setAppError));
-        setLoadingIndicator(Indicator.IDLE);
       } catch (error) {
         setLoadingIndicator(Indicator.IDLE);
-        console.error(error);
       }
     } else {
       setLoadingIndicator(Indicator.IDLE);
@@ -131,6 +146,20 @@ function Login({
 
   const onIconPress = () => {
     setSecureTextEntry(!secureTextEntry);
+  };
+
+  const setEmail = (value: string) => {
+    setLoginState({
+      ...loginState,
+      email: value,
+    });
+  };
+
+  const setPassword = (value: string) => {
+    setLoginState({
+      ...loginState,
+      password: value,
+    });
   };
 
   return (
@@ -149,11 +178,15 @@ function Login({
         </View>
       ) : null}
 
-      <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
+      <TextInput
+        placeholder="Email"
+        value={loginState.email}
+        onChangeText={setEmail}
+      />
       {emailError ? <Text style={styles.error}>{emailError}</Text> : null}
 
       <ButtonTextInput
-        value={password}
+        value={loginState.password}
         onChangeText={setPassword}
         secureTextEntry={secureTextEntry}
         onIconPress={onIconPress}

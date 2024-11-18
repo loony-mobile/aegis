@@ -5,7 +5,7 @@ import AuthContext, {AuthProvider} from './context/AuthContext';
 import AppContext, {AppProvider} from './context/AppProvider';
 import AuthRoutes from './routes/AuthRoutes';
 import UserRoutes from './routes/UserRoutes';
-import {AuthStatus} from './types/user';
+import {AuthStatus} from './types';
 
 function App(): React.JSX.Element {
   return (

@@ -1,14 +1,23 @@
-export type User = {
-    user_id: string,
+export interface User {
     fname: string,
     lname: string,
-    email: string
+    email: string,
+    uid: number,
 }
 
-export enum Auth {
-    TRUE = 1,
-    FALSE = 2,
-    LOADING = 3
+export enum AuthStatus {
+    UNAUTHORIZED = 1,
+    AUTHORIZED = 2,
+    IDLE = 3,
+}
+
+export interface Auth {
+    status: AuthStatus,
+    user: User | undefined | null
+}
+
+export interface AuthContextProps extends Auth {
+    setAuthContext: React.Dispatch<React.SetStateAction<Auth>>
 }
 
 export enum Indicator {

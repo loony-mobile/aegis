@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {View, TextInput, TouchableOpacity} from 'react-native';
-import auth from '@react-native-firebase/auth';
 import {theme, styles} from '../styles';
 import Text from '../components/Text';
 
@@ -34,7 +33,6 @@ function Signup({setComponentState}: any): React.JSX.Element {
 
     if (valid) {
       try {
-        await auth().createUserWithEmailAndPassword(email, password);
         setComponentState('LOGIN');
       } catch (error: any) {
         if (error.code === 'auth/email-already-in-use') {

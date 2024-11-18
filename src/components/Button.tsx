@@ -18,7 +18,9 @@ export default function Button({text, loadingIndicator, onPress}: ButtonProps) {
 
 export function DeleteButton({text, loadingIndicator, onPress}: ButtonProps) {
   return (
-    <TouchableOpacity style={styles.button_delete} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.button_delete, styles.boxShadow]}
+      onPress={onPress}>
       {loadingIndicator && loadingIndicator === Indicator.LOADING ? (
         <ActivityIndicator color="#2d2d2d" size="large" />
       ) : (

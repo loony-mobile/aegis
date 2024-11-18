@@ -1,6 +1,6 @@
 import React, {useState, PropsWithChildren, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {AuthStatus, AuthContextProps, Auth} from '../types/user';
+import {AuthStatus, AuthContextProps, Auth} from '../types';
 
 const authContextProps: AuthContextProps = {
   status: AuthStatus.IDLE,
@@ -30,8 +30,6 @@ const useAuthContext = (): [
         const isExpired = Date.now() > parseInt(expiryTime, 10);
 
         if (isExpired) {
-          // If the session is expired, clear the token
-          await AsyncStorage.removeItem('AUTH_USER');
           await AsyncStorage.removeItem('AUTH_TOKEN_EXPIRY');
           setTimeout(() => {
             setAuthContext({
