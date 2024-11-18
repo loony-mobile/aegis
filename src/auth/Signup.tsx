@@ -10,12 +10,6 @@ function Signup({setComponentState}: any): React.JSX.Element {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
-  // Simple email validation
-  const validateEmail = (_email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(_email);
-  };
-
   const handleSignup = async () => {
     let valid = true;
 
@@ -26,9 +20,6 @@ function Signup({setComponentState}: any): React.JSX.Element {
     // Validate email
     if (!email) {
       setEmailError('Email is required');
-      valid = false;
-    } else if (!validateEmail(email)) {
-      setEmailError('Enter a valid email');
       valid = false;
     }
 

@@ -5,7 +5,7 @@ import AuthContext, {AuthProvider} from './context/AuthContext';
 import AppContext, {AppProvider} from './context/AppProvider';
 import AuthRoutes from './routes/AuthRoutes';
 import UserRoutes from './routes/UserRoutes';
-import {Auth} from './types';
+import {AuthStatus} from './types/user';
 
 function App(): React.JSX.Element {
   return (
@@ -16,10 +16,10 @@ function App(): React.JSX.Element {
             return (
               <AuthContext.Consumer>
                 {authContext => {
-                  if (authContext.auth === Auth.LOADING) {
+                  if (authContext.status === AuthStatus.IDLE) {
                     return <LoadingScreen />;
                   }
-                  if (authContext.auth === Auth.FALSE) {
+                  if (authContext.status === AuthStatus.UNAUTHORIZED) {
                     return (
                       <AuthRoutes
                         authContext={authContext}

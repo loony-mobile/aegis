@@ -4,8 +4,10 @@ import React, {
   PropsWithChildren,
   useEffect,
 } from 'react';
-
-const base_url = process.env.API || '';
+import config from '../../config/app.config.json';
+const appConfig: any = config;
+const currentConfig = appConfig[appConfig.env];
+const {API_URL} = currentConfig;
 
 // Create the context
 const AppContext = createContext({
@@ -18,7 +20,7 @@ const AppContext = createContext({
 // Create a provider component
 export const AppProvider = ({children}: PropsWithChildren) => {
   const [context, setAppContext] = useState({
-    base_url,
+    base_url: API_URL,
   });
 
   useEffect(() => {}, []);

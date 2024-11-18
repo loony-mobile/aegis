@@ -1,27 +1,25 @@
-import React, {
-  useState,
-  createContext,
-  PropsWithChildren,
-  useEffect,
-} from 'react';
+import React, {useState, PropsWithChildren, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {AuthStatus, AuthContextProps, Auth} from '../types/user';
 
-import {Auth} from '../types/index';
-
-// Create the context
-const AuthContext = createContext({
+const authContextProps: AuthContextProps = {
+  status: AuthStatus.IDLE,
   user: null,
-  auth: Auth.LOADING,
-  setAuthContext: (_: any) => {
+  setAuthContext: () => {
     return;
   },
-});
+};
 
-// Create a provider component
-export const AuthProvider = ({children}: PropsWithChildren) => {
-  const [context, setAuthContext] = useState({
+export const AuthContext =
+  React.createContext<AuthContextProps>(authContextProps);
+
+const useAuthContext = (): [
+  Auth,
+  React.Dispatch<React.SetStateAction<Auth>>,
+] => {
+  const [authContext, setAuthContext] = useState<Auth>({
+    status: AuthStatus.IDLE,
     user: null,
-    auth: Auth.LOADING,
   });
 
   useEffect(() => {
@@ -38,14 +36,14 @@ export const AuthProvider = ({children}: PropsWithChildren) => {
           setTimeout(() => {
             setAuthContext({
               user: null,
-              auth: Auth.FALSE,
+              status: AuthStatus.UNAUTHORIZED,
             });
           }, 1000);
         } else {
           setTimeout(() => {
             setAuthContext({
               user: JSON.parse(authUser),
-              auth: Auth.TRUE,
+              status: AuthStatus.AUTHORIZED,
             });
           }, 1000);
         }
@@ -53,7 +51,7 @@ export const AuthProvider = ({children}: PropsWithChildren) => {
         setTimeout(() => {
           setAuthContext({
             user: null,
-            auth: Auth.FALSE,
+            status: AuthStatus.UNAUTHORIZED,
           });
         }, 1000);
       }
@@ -61,6 +59,12 @@ export const AuthProvider = ({children}: PropsWithChildren) => {
 
     loadToken();
   }, []);
+  return [authContext, setAuthContext];
+};
+
+// Create a provider component
+export const AuthProvider = ({children}: PropsWithChildren) => {
+  const [context, setAuthContext] = useAuthContext();
 
   return (
     <AuthContext.Provider value={{...context, setAuthContext}}>

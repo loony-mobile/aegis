@@ -73,12 +73,6 @@ function Login({
     }
   }, []);
 
-  // Simple email validation
-  const validateEmail = (_email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(_email);
-  };
-
   const handleLogin = async () => {
     setLoadingIndicator(Indicator.LOADING);
     let valid = true;
@@ -90,9 +84,6 @@ function Login({
     // Validate email
     if (!email) {
       setEmailError('Email is required');
-      valid = false;
-    } else if (!validateEmail(email)) {
-      setEmailError('Enter a valid email');
       valid = false;
     }
 
@@ -108,6 +99,7 @@ function Login({
     if (valid) {
       try {
         let url = `${appContext.base_url}/api/auth/login`;
+        console.log(url);
         axios
           .post(url, {email, password})
           .then(async ({data}) => {
