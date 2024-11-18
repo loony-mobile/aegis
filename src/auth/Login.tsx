@@ -117,6 +117,7 @@ function Login({
     if (valid) {
       try {
         let url = `${appContext.base_url}/api/auth/login`;
+        console.log(url);
         axios
           .post(url, {email, password})
           .then(async ({data}) => {

@@ -1,15 +1,21 @@
 import React, {useState} from 'react';
-import {View, TextInput, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import {theme, styles} from '../styles';
 import Text from '../components/Text';
+import TextInput from '../components/TextInput';
+import ButtonTextInput from '../components/ButtonTextInput';
 
 function Signup({setComponentState}: any): React.JSX.Element {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [signupState, setLoginState] = useState({
+    email: '',
+    password: '',
+  });
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
 
   const handleSignup = async () => {
+    const {email, password} = signupState;
     let valid = true;
 
     // Reset error messages
@@ -44,9 +50,27 @@ function Signup({setComponentState}: any): React.JSX.Element {
       }
     }
   };
+
   const handleLogin = () => {
     setComponentState('LOGIN');
   };
+  const onIconPress = () => {
+    setSecureTextEntry(!secureTextEntry);
+  };
+  const setEmail = (value: string) => {
+    setLoginState({
+      ...signupState,
+      email: value,
+    });
+  };
+
+  const setPassword = (value: string) => {
+    setLoginState({
+      ...signupState,
+      password: value,
+    });
+  };
+
   return (
     <View style={[styles.container, theme.dark.con]}>
       <View style={styles.logoCon}>
@@ -58,23 +82,18 @@ function Signup({setComponentState}: any): React.JSX.Element {
       </View>
 
       <TextInput
-        placeholderTextColor="#ccc"
-        style={styles.input}
         placeholder="Email"
-        value={email}
+        value={signupState.email}
         onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
       />
       {emailError ? <Text style={styles.error}>{emailError}</Text> : null}
 
-      <TextInput
-        placeholderTextColor="#ccc"
-        style={styles.input}
-        placeholder="Password"
-        value={password}
+      <ButtonTextInput
+        value={signupState.password}
         onChangeText={setPassword}
-        secureTextEntry
+        secureTextEntry={secureTextEntry}
+        onIconPress={onIconPress}
+        placeholder="Password"
       />
       {passwordError ? <Text style={styles.error}>{passwordError}</Text> : null}
 

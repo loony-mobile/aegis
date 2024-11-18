@@ -29,7 +29,6 @@ export default function TextInputComponent({
         autoCapitalize="none"
         secureTextEntry={secureTextEntry}
       />
-      <View style={styles.border} />
       <TouchableOpacity onPress={onIconPress} style={styles.button}>
         <Icon name="eye" size={18} color="gray" />
       </TouchableOpacity>
@@ -41,8 +40,7 @@ export const styles = StyleSheet.create({
   inputContainer: {
     height: 50,
     flexDirection: 'row',
-    borderColor: '#8d8d8d',
-    borderWidth: 1,
+    backgroundColor: '#1E1E1E',
     borderRadius: 10,
     marginVertical: 5,
   },
@@ -53,12 +51,6 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 10,
     color: '#ccc',
     width: '85%',
-  },
-  border: {
-    marginTop: 5,
-    height: 40,
-    borderColor: '#8d8d8d',
-    borderLeftWidth: 0.5,
   },
   button: {
     flex: 1,

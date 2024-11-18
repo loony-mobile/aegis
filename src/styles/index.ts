@@ -1,17 +1,33 @@
 import {
     StyleSheet,
   } from 'react-native';
+  export const darkTheme = {
+    background: '#121212',
+    surface: '#1E1E1E',
+    primary: '#BB86FC',
+    secondary: '#03DAC6',
+    textPrimary: '#FFFFFF',
+    textSecondary: '#B0B0B0',
+    textPlaceholder: '#757575',
+    divider: '#282828',
+    error: '#CF6679',
+    warning: '#F4B400',
+    success: '#4CAF50',
+    info: '#2196F3',
+    disabled: '#555555',
+  };
+
 
 export const theme = {
     dark: {
         con: {
-            backgroundColor: '#323436',
+            backgroundColor: '#121212',
         },
         text: {
             color: '#cccccc',
         },
         card: {
-            backgroundColor: '#363636',
+            backgroundColor: '#1E1E1E',
         },
     },
     light: {
@@ -92,7 +108,7 @@ export const styles = StyleSheet.create({
     },
     button_delete: {
       height: 50,
-      backgroundColor: 'transparent',
+      backgroundColor: '#1E1E1E',
       borderRadius: 10,
       justifyContent: 'center',
       alignItems: 'center',

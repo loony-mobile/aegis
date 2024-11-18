@@ -23,14 +23,14 @@ const tabBarIcon = ({route, focused, color, size}: any) => {
 
 const screenOptions = ({route}: any) => ({
   headerStyle: {
-    backgroundColor: '#363636',
+    backgroundColor: '#1E1E1E',
   },
-  headerTintColor: '#fff',
+  headerTintColor: '#ffffff',
   headerTitleStyle: {
     fontWeight: 'bold',
   },
   tabBarShowLabel: false,
-  tabBarIcon: ({focused, color, size}: any) =>
+  tabBarIcon: ({focused, size}: any) =>
     tabBarIcon({
       route,
       focused,
@@ -39,7 +39,7 @@ const screenOptions = ({route}: any) => ({
     }),
   tabBarActiveTintColor: '#cccccc',
   tabBarInactiveTintColor: '#cccccc',
-  tabBarStyle: {backgroundColor: '#2d2d2d'},
+  tabBarStyle: {backgroundColor: '#1E1E1E', borderTopWidth: 0},
 });
 
 // Create a Bottom Tab Navigator

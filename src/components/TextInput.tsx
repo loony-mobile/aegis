@@ -30,8 +30,7 @@ export const styles = StyleSheet.create({
   inputContainer: {
     height: 50,
     flexDirection: 'row',
-    borderColor: '#8d8d8d',
-    borderWidth: 1,
+    backgroundColor: '#1E1E1E',
     borderRadius: 10,
     marginVertical: 5,
   },

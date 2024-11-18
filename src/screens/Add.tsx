@@ -55,6 +55,7 @@ export default function Add(props: any) {
         value={name}
         onChangeText={setName}
         autoCapitalize="none"
+        backgroundColor="#1E1E1E"
       />
 
       <TextInput
