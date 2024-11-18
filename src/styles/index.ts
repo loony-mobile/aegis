@@ -29,6 +29,36 @@ export const theme = {
         card: {
             backgroundColor: '#1E1E1E',
         },
+        button: {
+          height: 50,
+          backgroundColor: '#e0e0e0',
+          borderRadius: 10,
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: 10,
+          fontWeight: 'bold',
+        },
+        button_delete: {
+          height: 50,
+          backgroundColor: '#1E1E1E',
+          borderRadius: 10,
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: 10,
+          fontWeight: 'bold',
+        },
+        button_delete_text: {
+          color: '#ffffff',
+          fontSize: 18,
+          textAlign: 'center',
+          fontWeight: 'bold',
+        },
+        button_text: {
+          color: '#2d2d2d',
+          fontSize: 18,
+          textAlign: 'center',
+          fontWeight: 'bold',
+        },
     },
     light: {
         con: {
@@ -96,36 +126,6 @@ export const styles = StyleSheet.create({
       paddingHorizontal: 10,
       backgroundColor: '#363636',
       color: '#ccc',
-    },
-    button: {
-      height: 50,
-      backgroundColor: '#e0e0e0',
-      borderRadius: 10,
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: 10,
-      fontWeight: 'bold',
-    },
-    button_delete: {
-      height: 50,
-      backgroundColor: '#1E1E1E',
-      borderRadius: 10,
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: 10,
-      fontWeight: 'bold',
-    },
-    button_delete_text: {
-      color: '#ffffff',
-      fontSize: 18,
-      textAlign: 'center',
-      fontWeight: 'bold',
-    },
-    text: {
-      color: '#2d2d2d',
-      fontSize: 18,
-      textAlign: 'center',
-      fontWeight: 'bold',
     },
     createAccount: {
       marginTop: 5,

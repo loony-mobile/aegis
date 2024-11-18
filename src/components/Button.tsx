@@ -2,15 +2,15 @@ import React from 'react';
 import {TouchableOpacity, ActivityIndicator} from 'react-native';
 import Text from '../components/Text';
 import {Indicator} from '../types';
-import {styles} from '../styles';
+import {styles, theme} from '../styles';
 
 export default function Button({text, loadingIndicator, onPress}: ButtonProps) {
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
+    <TouchableOpacity style={theme.dark.button} onPress={onPress}>
       {loadingIndicator && loadingIndicator === Indicator.LOADING ? (
         <ActivityIndicator color="#2d2d2d" size="large" />
       ) : (
-        <Text style={styles.text}>{text}</Text>
+        <Text style={theme.dark.button_text}>{text}</Text>
       )}
     </TouchableOpacity>
   );
@@ -19,12 +19,12 @@ export default function Button({text, loadingIndicator, onPress}: ButtonProps) {
 export function DeleteButton({text, loadingIndicator, onPress}: ButtonProps) {
   return (
     <TouchableOpacity
-      style={[styles.button_delete, styles.boxShadow]}
+      style={[theme.dark.button_delete, styles.boxShadow]}
       onPress={onPress}>
       {loadingIndicator && loadingIndicator === Indicator.LOADING ? (
         <ActivityIndicator color="#2d2d2d" size="large" />
       ) : (
-        <Text style={styles.button_delete_text}>{text}</Text>
+        <Text style={theme.dark.button_delete_text}>{text}</Text>
       )}
     </TouchableOpacity>
   );

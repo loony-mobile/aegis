@@ -97,8 +97,8 @@ function Signup({setComponentState}: any): React.JSX.Element {
       />
       {passwordError ? <Text style={styles.error}>{passwordError}</Text> : null}
 
-      <TouchableOpacity style={styles.button} onPress={handleSignup}>
-        <Text style={styles.text}>Signup</Text>
+      <TouchableOpacity style={[theme.dark.button]} onPress={handleSignup}>
+        <Text style={[theme.dark.button_text]}>Signup</Text>
       </TouchableOpacity>
 
       <View style={theme.border} />

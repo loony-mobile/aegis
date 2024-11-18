@@ -158,16 +158,4 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
   },
-  button: {
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 5,
-    paddingVertical: 5,
-    marginRight: 10,
-  },
-  text: {
-    color: '#fff',
-    fontSize: 18,
-  },
 });

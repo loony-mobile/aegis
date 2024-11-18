@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react';
-import {View, Text, TextInput, StyleSheet, Alert} from 'react-native';
+import {View, Text, StyleSheet, Alert} from 'react-native';
 import {theme} from '../styles';
 import Button, {DeleteButton} from '../components/Button';
 import axios from 'axios';
 import {handleError} from '../utils';
 import {Indicator} from '../types';
+import TextInput from '../components/TextInput';
 import ButtonTextInput from '../components/ButtonTextInput';
 
 export default function Edit(props: any) {
@@ -88,30 +89,13 @@ export default function Edit(props: any) {
     <View style={[styles.container, theme.dark.con]}>
       {error ? <Text style={styles.error}>{error}</Text> : null}
 
-      <TextInput
-        placeholderTextColor="#ccc"
-        style={styles.input}
-        placeholder="Name"
-        value={name}
-        onChangeText={setName}
-        autoCapitalize="none"
-      />
+      <TextInput placeholder="Name" value={name} onChangeText={setName} />
 
+      <TextInput placeholder="Url" value={url} onChangeText={setUrl} />
       <TextInput
-        placeholderTextColor="#ccc"
-        style={styles.input}
-        placeholder="Url"
-        value={url}
-        onChangeText={setUrl}
-        autoCapitalize="none"
-      />
-      <TextInput
-        placeholderTextColor="#ccc"
-        style={styles.input}
         placeholder="Email"
         value={username}
         onChangeText={setUsername}
-        autoCapitalize="none"
       />
 
       <ButtonTextInput
@@ -140,22 +124,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  input: {
-    height: 50,
-    borderColor: '#8d8d8d',
-    borderWidth: 1,
-    borderRadius: 10,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    backgroundColor: '#363636',
-    color: '#ccc',
   },
   error: {
     color: 'red',
