@@ -76,4 +76,4 @@ yarn-error.log
 modules/
 deno.lock
 .env
-config/
+configs/app.config.json

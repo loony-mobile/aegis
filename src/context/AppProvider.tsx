@@ -4,7 +4,7 @@ import React, {
   PropsWithChildren,
   useEffect,
 } from 'react';
-import config from '../../config/app.config.json';
+import config from '../../configs/app.config.json';
 const appConfig: any = config;
 const currentConfig = appConfig[appConfig.env];
 const {API_URL} = currentConfig;
