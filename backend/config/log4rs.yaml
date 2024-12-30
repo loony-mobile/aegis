@@ -1,0 +1,53 @@
+# Scan this file for changes every 120 seconds
+refresh_rate: 120 seconds
+
+appenders:
+  stdout_appender:
+    kind:
+      console
+      #encoder:
+      # see https://docs.rs/log4rs/0.13.0/log4rs/encode/pattern/index.html
+      # see https://docs.rs/chrono/0.3.1/chrono/format/strftime/index.html
+    # pattern: "{d(%Y-%m-%d %H:%M:%S.%sss)} {l} {t} - {m}{n}"
+
+  # file_appender:
+  #   kind: file
+  #   path: '/tmp/logs/loony_axum_postgres.log'
+
+  rolling_file_appender:
+    kind: rolling_file
+    path: '/tmp/logs/loony_axum_postgres.log'
+    # Specifies if the appender should append to or truncate the log file if it
+    # already exists. Defaults to `true`.
+    append: true
+    # The policy which handles rotation of the log file. Required.
+    policy:
+      # Identifies which policy is to be used. If no kind is specified, it will
+      # default to "compound".
+      kind: compound
+
+      # The remainder of the configuration is passed along to the policy's
+      # deserializer, and will vary based on the kind of policy.
+      trigger:
+        kind: size
+        limit: 10 kb
+
+      roller:
+        kind: fixed_window
+        base: 1
+        count: 5
+        pattern: '/tmp/logs/loony_axum_postgres.{}.log'
+
+# Set the default logging level to "info" and attach the "stdout_appender" appender to the root
+root:
+  level: info
+  appenders:
+    - stdout_appender
+
+loggers:
+  loony_axum_postgres: #main.rs
+    level: info
+  loony_axum_postgres::book::get:
+    level: info
+  loony_axum_postgres::blog::get:
+    level: info

@@ -1,0 +1,42 @@
+[package]
+name = "aegis_api"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+axum = { version = "0.7.4", features = ["multipart", "ws"] }
+bb8 = "0.7.1"
+bb8-postgres = "0.7.0"
+bb8-redis = "0.14.0"
+tokio = { version = "1.0", features = ["full"] }
+tokio-postgres = { version = "0.7.11", features = ["with-chrono-0_4"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+serde = { version = "1.0.197", features = ["derive"] }
+serde_json = "1.0.114"
+redis = "0.24.0"
+tower-http = { version = "0.5.2", features = ["cors", "limit"] }
+tower-sessions = "0.10.0"
+tower-sessions-redis-store = "0.10.0"
+cookie = "0.18.0"
+bcrypt = "0.15.0"
+jsonwebtoken = "9.2.0"
+futures = "0.3.30"
+futures-util = "0.3.30"
+time = { version = "0.3.34", features = ["local-offset"] }
+uuid = { version = "1.8.0", features = ["v1", "v4"] }
+chrono = { version = "0.4.38", features = ["serde"] }
+image = "0.25.1"
+tower = "0.4.13"
+validator = { version = "0.16", features = ["derive"] }
+lazy_static = "1.5.0"
+regex = "1.10.5"
+log4rs = "1.3.0"
+log = "0.4.2"
+
+# Search
+tantivy = "0.22.0"
+tempfile = "3.14.0"
