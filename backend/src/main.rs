@@ -37,10 +37,10 @@ pub struct AppState {
 }
 
 async fn init() -> AppState {
-    let pg_host = std::env::var("V2_API_PG_HOSTNAME").unwrap();
-    let pg_user = std::env::var("V2_API_PG_USERNAME").unwrap();
-    let pg_dbname = std::env::var("V2_API_PG_DBNAME").unwrap();
-    let pg_password = std::env::var("V2_API_PG_PASSWORD").unwrap();
+    let pg_host = std::env::var("V2_PG_HOSTNAME").unwrap();
+    let pg_user = std::env::var("V2_PG_USERNAME").unwrap();
+    let pg_dbname = std::env::var("V2_PG_DBNAME").unwrap();
+    let pg_password = std::env::var("V2_PG_PASSWORD").unwrap();
     let tmp_upload = String::from(std::env::var("TMP_UPLOADS").unwrap());
     let v2_upload = String::from(std::env::var("V2_UPLOADS").unwrap());
 
@@ -68,9 +68,9 @@ async fn init() -> AppState {
 #[tokio::main]
 async fn main() {
     // log4rs::init_file("config/log4rs.yaml", Default::default()).unwrap();
-    let host = std::env::var("V2_API_HOSTNAME").unwrap();
-    let port = std::env::var("V2_API_PORT").unwrap();
-    let origins = std::env::var("V2_API_ALLOWED_ORIGINS").unwrap();
+    let host = std::env::var("V2_HOSTNAME").unwrap();
+    let port = std::env::var("V2_PORT").unwrap();
+    let origins = std::env::var("V2_ALLOWED_ORIGINS").unwrap();
 
     tracing_subscriber::registry()
         .with(

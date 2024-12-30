@@ -78,7 +78,7 @@ pub async fn login(
     Json(body): Json<LoginForm>,
 ) -> Result<impl IntoResponse, AppError> {
     body.validate()?;
-    let secret_key = std::env::var("V2_API_SECRET_KEY").unwrap();
+    let secret_key = std::env::var("V2_SECRET_KEY").unwrap();
 
     let conn = pool.pg_pool.get().await?;
     let row = conn
@@ -221,7 +221,7 @@ async fn extract_authorization(header: &http::HeaderMap) -> Option<String> {
 }
 
 pub async fn get_user_session(header: http::HeaderMap) -> Result<impl IntoResponse, AppError> {
-    let secret_key = std::env::var("V2_API_SECRET_KEY").unwrap();
+    let secret_key = std::env::var("V2_SECRET_KEY").unwrap();
 
     if let Some(token) = extract_authorization(&header).await {
         let token = decode::<Claims>(
