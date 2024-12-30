@@ -24,43 +24,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "512761e0bb2578dd7380c6baaa0f4ce03e84f95e960231d1dec8bf4d7d6e2627"
 
 [[package]]
-name = "aegis_api"
-version = "0.1.0"
-dependencies = [
- "axum",
- "bb8 0.7.1",
- "bb8-postgres",
- "bb8-redis",
- "bcrypt",
- "chrono",
- "cookie",
- "futures",
- "futures-util",
- "image",
- "jsonwebtoken",
- "lazy_static",
- "log",
- "log4rs",
- "redis",
- "regex",
- "serde",
- "serde_json",
- "tantivy",
- "tempfile",
- "time",
- "tokio",
- "tokio-postgres",
- "tower 0.4.13",
- "tower-http",
- "tower-sessions",
- "tower-sessions-redis-store",
- "tracing",
- "tracing-subscriber",
- "uuid",
- "validator",
-]
-
-[[package]]
 name = "aho-corasick"
 version = "1.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3206,6 +3169,43 @@ dependencies = [
  "atomic",
  "getrandom",
  "serde",
+]
+
+[[package]]
+name = "v2_api"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "bb8 0.7.1",
+ "bb8-postgres",
+ "bb8-redis",
+ "bcrypt",
+ "chrono",
+ "cookie",
+ "futures",
+ "futures-util",
+ "image",
+ "jsonwebtoken",
+ "lazy_static",
+ "log",
+ "log4rs",
+ "redis",
+ "regex",
+ "serde",
+ "serde_json",
+ "tantivy",
+ "tempfile",
+ "time",
+ "tokio",
+ "tokio-postgres",
+ "tower 0.4.13",
+ "tower-http",
+ "tower-sessions",
+ "tower-sessions-redis-store",
+ "tracing",
+ "tracing-subscriber",
+ "uuid",
+ "validator",
 ]
 
 [[package]]

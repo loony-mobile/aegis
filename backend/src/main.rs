@@ -26,9 +26,7 @@ use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 #[allow(dead_code)]
 pub struct Dirs {
     tmp_upload: String,
-    blog_upload: String,
-    book_upload: String,
-    user_upload: String,
+    v2_upload: String,
 }
 
 #[derive(Clone)]
@@ -39,10 +37,12 @@ pub struct AppState {
 }
 
 async fn init() -> AppState {
-    let pg_host = std::env::var("LOONY_API_PG_HOSTNAME").unwrap();
-    let pg_user = std::env::var("LOONY_API_PG_USERNAME").unwrap();
-    let pg_dbname = std::env::var("LOONY_API_PG_DBNAME").unwrap();
-    let pg_password = std::env::var("LOONY_API_PG_PASSWORD").unwrap();
+    let pg_host = std::env::var("V2_API_PG_HOSTNAME").unwrap();
+    let pg_user = std::env::var("V2_API_PG_USERNAME").unwrap();
+    let pg_dbname = std::env::var("V2_API_PG_DBNAME").unwrap();
+    let pg_password = std::env::var("V2_API_PG_PASSWORD").unwrap();
+    let tmp_upload = String::from(std::env::var("TMP_UPLOADS").unwrap());
+    let v2_upload = String::from(std::env::var("V2_UPLOADS").unwrap());
 
     // set up connection pool
     let pg_manager = PostgresConnectionManager::new_from_stringlike(
@@ -58,10 +58,8 @@ async fn init() -> AppState {
     return AppState {
         pg_pool,
         dirs: Dirs {
-            tmp_upload: String::from(std::env::var("TMP_UPLOADS").unwrap()),
-            blog_upload: String::from(std::env::var("BLOG_UPLOADS").unwrap()),
-            book_upload: String::from(std::env::var("BOOK_UPLOADS").unwrap()),
-            user_upload: String::from(std::env::var("USER_UPLOADS").unwrap()),
+            tmp_upload,
+            v2_upload,
         },
         search: search::init_search(),
     };
@@ -70,9 +68,9 @@ async fn init() -> AppState {
 #[tokio::main]
 async fn main() {
     // log4rs::init_file("config/log4rs.yaml", Default::default()).unwrap();
-    let host = std::env::var("LOONY_API_HOSTNAME").unwrap();
-    let port = std::env::var("LOONY_API_PORT").unwrap();
-    let origins = std::env::var("LOONY_API_ALLOWED_ORIGINS").unwrap();
+    let host = std::env::var("V2_API_HOSTNAME").unwrap();
+    let port = std::env::var("V2_API_PORT").unwrap();
+    let origins = std::env::var("V2_API_ALLOWED_ORIGINS").unwrap();
 
     tracing_subscriber::registry()
         .with(

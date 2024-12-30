@@ -12,7 +12,7 @@ use axum::{
 };
 use tower::ServiceBuilder;
 use tower_http::limit::RequestBodyLimitLayer;
-use crate::file::{get_blog_file, get_book_file, get_tmp_file, upload_file};
+use crate::file::{get_file, get_tmp_file, upload_file};
 
 use crate::{
     auth::{get_user_session, login, signup},

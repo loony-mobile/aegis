@@ -103,27 +103,11 @@ pub async fn upload_file(
     ))
 }
 
-pub async fn get_blog_file(
+pub async fn get_file(
     State(state): State<AppState>,
     AxumPath((uid, size, filename)): AxumPath<(i32, String, String)>,
 ) -> Result<impl IntoResponse, AppError> {
-    let file_path = format!("{}/{}/{}-{}", &state.dirs.blog_upload, uid, size, filename);
-
-    // Attempt to read the file contents
-    let f = std::fs::read(&file_path)?;
-
-    Ok((
-        StatusCode::OK,
-        [(header::CONTENT_TYPE, "application/json")],
-        f,
-    ))
-}
-
-pub async fn get_book_file(
-    State(state): State<AppState>,
-    AxumPath((uid, size, filename)): AxumPath<(i32, String, String)>,
-) -> Result<impl IntoResponse, AppError> {
-    let file_path = format!("{}/{}/{}-{}", &state.dirs.book_upload, uid, size, filename);
+    let file_path = format!("{}/{}/{}-{}", &state.dirs.v2_upload, uid, size, filename);
 
     // Attempt to read the file contents
     let f = std::fs::read(&file_path)?;

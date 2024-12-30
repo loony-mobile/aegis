@@ -2,3 +2,4 @@
 .env
 .cache/
 *.log
+scripts/run.sh

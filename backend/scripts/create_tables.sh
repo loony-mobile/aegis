@@ -15,11 +15,13 @@ fi
 # File paths
 dropfile=$PWD/db/postgres/drop_all_tables.sql
 user=$PWD/db/postgres/user.sql
-aegis=$PWD/db/postgres/aegis.sql
+credentials=$PWD/db/postgres/credentials.sql
 
 # Execute SQL files
 psql -h localhost -U $user_name -d $db_name \
   -f $dropfile \
   -f $user \
-  -f $aegis \
+  -f $credentials \
   -W
+
+# 43GI5@25
