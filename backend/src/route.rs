@@ -71,11 +71,11 @@ pub async fn create_router(connection: AppState, cors: CorsLayer) -> Router {
         .route("/get_subscribed_users", get(get_subscribed_users));
 
     Router::new()
-        .nest("/api/auth", auth_routes)
-        .nest("/api/creds", cred_routes)
-        .nest("/api/user", user_routes)
-        .route("/api/upload_file", post(upload_file))
-        .route("/api/tmp/:uid/:size/:filename", get(get_tmp_file))
+        .nest("/aegis/auth", auth_routes)
+        .nest("/aegis/creds", cred_routes)
+        .nest("/aegis/user", user_routes)
+        .route("/aegis/upload_file", post(upload_file))
+        .route("/aegis/tmp/:uid/:size/:filename", get(get_tmp_file))
         .route("/", get(home))
         .with_state(connection)
         .layer(cors)

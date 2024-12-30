@@ -1,9 +1,9 @@
 {
-  "env": "dev",
+  "env": "prod",
   "dev": {
     "API_URL": "http://localhost:3000"
   },
   "prod": {
-    "API_URL": "https://web.sankarboro.com/"
+    "API_URL": "https://web.sankarboro.com"
   }
 }
