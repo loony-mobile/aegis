@@ -4,9 +4,12 @@ import {theme, styles} from '../styles';
 import Text from '../components/Text';
 import TextInput from '../components/TextInput';
 import ButtonTextInput from '../components/ButtonTextInput';
+import axios from 'axios';
 
-function Signup({setComponentState}: any): React.JSX.Element {
+function Signup({setComponentState, appContext}: any): React.JSX.Element {
   const [signupState, setLoginState] = useState({
+    firstname: '',
+    lastname: '',
     email: '',
     password: '',
   });
@@ -15,7 +18,7 @@ function Signup({setComponentState}: any): React.JSX.Element {
   const [secureTextEntry, setSecureTextEntry] = useState(true);
 
   const handleSignup = async () => {
-    const {email, password} = signupState;
+    const {email, password, firstname, lastname} = signupState;
     let valid = true;
 
     // Reset error messages
@@ -39,7 +42,19 @@ function Signup({setComponentState}: any): React.JSX.Element {
 
     if (valid) {
       try {
-        setComponentState('LOGIN');
+        // setComponentState('LOGIN');
+        let url = `${appContext.base_url}/auth/signup`;
+        console.log(url, 'url');
+        const formData = {fname: firstname, lname: lastname, email, password};
+        console.log(formData);
+        axios
+          .post(url, formData)
+          .then(({data}) => {
+            console.log('data', data);
+          })
+          .catch(e => {
+            console.log('error', e.response);
+          });
       } catch (error: any) {
         if (error.code === 'auth/email-already-in-use') {
           console.log('That email address is already in use!');
@@ -63,6 +78,18 @@ function Signup({setComponentState}: any): React.JSX.Element {
       email: value,
     });
   };
+  const setFirstname = (value: string) => {
+    setLoginState({
+      ...signupState,
+      firstname: value,
+    });
+  };
+  const setLastname = (value: string) => {
+    setLoginState({
+      ...signupState,
+      lastname: value,
+    });
+  };
 
   const setPassword = (value: string) => {
     setLoginState({
@@ -80,6 +107,18 @@ function Signup({setComponentState}: any): React.JSX.Element {
           <Text>credentials.</Text>
         </View>
       </View>
+
+      <TextInput
+        placeholder="First name"
+        value={signupState.firstname}
+        onChangeText={setFirstname}
+      />
+
+      <TextInput
+        placeholder="Last name"
+        value={signupState.lastname}
+        onChangeText={setLastname}
+      />
 
       <TextInput
         placeholder="Email"
