@@ -18,7 +18,7 @@ export default function Profile(props: any) {
   return (
     <View style={[styles.container, theme.dark.con]}>
       <TouchableOpacity style={theme.dark.button} onPress={handleLogout}>
-        <Text style={theme.dark.button_text}>Sign Out</Text>
+        <Text style={theme.dark.btnText}>Sign Out</Text>
       </TouchableOpacity>
     </View>
   );

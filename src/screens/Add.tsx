@@ -21,7 +21,7 @@ export default function Add(props: any) {
   const saveCred = () => {
     setError('');
     axios
-      .post(`${base_url}/api/creds/add`, {
+      .post(`${base_url}/creds/add`, {
         user_id,
         name,
         username,
@@ -60,7 +60,7 @@ export default function Add(props: any) {
         secureTextEntry={secureTextEntry}
       />
       <TouchableOpacity style={theme.dark.button} onPress={saveCred}>
-        <Text style={theme.dark.button_text}>Add</Text>
+        <Text style={theme.dark.btnText}>Add</Text>
       </TouchableOpacity>
     </View>
   );
@@ -87,28 +87,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#363636',
     color: '#ccc',
   },
-  button: {
-    height: 50,
-    backgroundColor: '#e0e0e0',
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
-    fontWeight: 'bold',
-  },
   text: {
     color: '#2d2d2d',
     fontSize: 18,
     textAlign: 'center',
     fontWeight: 'bold',
-  },
-  buttonIcon: {
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 5,
-    paddingVertical: 5,
-    width: 40,
   },
   error: {
     color: 'red',

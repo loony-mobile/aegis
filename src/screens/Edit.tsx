@@ -32,9 +32,9 @@ export default function Edit(props: any) {
   }, []);
 
   const handleDelete = () => {
-    console.log(`${base_url}/api/creds/delete/${props.route.params.uid}`);
+    console.log(`${base_url}/creds/delete/${props.route.params.uid}`);
     axios
-      .post(`${base_url}/api/creds/delete/${props.route.params.uid}`)
+      .post(`${base_url}/creds/delete/${props.route.params.uid}`)
       .then(() => {})
       .catch(e => {
         console.log(e.response);
@@ -45,7 +45,7 @@ export default function Edit(props: any) {
     setLoadingIndicator(Indicator.LOADING);
     setError('');
     axios
-      .post(`${base_url}/api/creds/edit`, {
+      .post(`${base_url}/creds/edit`, {
         uid: props.route.params.uid,
         name,
         username,

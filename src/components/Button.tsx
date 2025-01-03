@@ -10,7 +10,7 @@ export default function Button({text, loadingIndicator, onPress}: ButtonProps) {
       {loadingIndicator && loadingIndicator === Indicator.LOADING ? (
         <ActivityIndicator color="#2d2d2d" size="large" />
       ) : (
-        <Text style={theme.dark.button_text}>{text}</Text>
+        <Text style={theme.dark.btnText}>{text}</Text>
       )}
     </TouchableOpacity>
   );
@@ -19,12 +19,12 @@ export default function Button({text, loadingIndicator, onPress}: ButtonProps) {
 export function DeleteButton({text, loadingIndicator, onPress}: ButtonProps) {
   return (
     <TouchableOpacity
-      style={[theme.dark.button_delete, styles.boxShadow]}
+      style={[theme.dark.btnDelete, styles.boxShadow]}
       onPress={onPress}>
       {loadingIndicator && loadingIndicator === Indicator.LOADING ? (
         <ActivityIndicator color="#2d2d2d" size="large" />
       ) : (
-        <Text style={theme.dark.button_delete_text}>{text}</Text>
+        <Text style={theme.dark.btnDeleteText}>{text}</Text>
       )}
     </TouchableOpacity>
   );

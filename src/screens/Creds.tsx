@@ -59,7 +59,7 @@ const Creds = (props: any) => {
 
   const fetchData = () => {
     axios
-      .get(`${base_url}/api/creds/get/${user_id}`)
+      .get(`${base_url}/creds/get/${user_id}`)
       .then(({data}) => {
         setCreds(data);
       })
