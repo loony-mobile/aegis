@@ -1,18 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, Alert} from 'react-native';
-import {theme} from '../styles';
+import {STYLES} from '../styles';
 import Button, {DeleteButton} from '../components/Button';
 import axios from 'axios';
 import {handleError} from '../utils';
 import {Indicator} from '../types';
 import TextInput from '../components/TextInput';
 import ButtonTextInput from '../components/ButtonTextInput';
+import {useTheme} from '../context/AppProvider';
 
 export default function Edit(props: any) {
   const {appContext} = props.route.params;
   const {base_url} = appContext;
 
+  const appTheme = useTheme();
+  const theme = STYLES[appTheme];
   const [loadingIndicator, setLoadingIndicator] = useState(Indicator.IDLE);
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
@@ -86,7 +89,7 @@ export default function Edit(props: any) {
   };
 
   return (
-    <View style={[styles.container, theme.dark.con]}>
+    <View style={[styles.container, theme.con]}>
       {error ? <Text style={styles.error}>{error}</Text> : null}
 
       <TextInput placeholder="Name" value={name} onChangeText={setName} />

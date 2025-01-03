@@ -22,7 +22,7 @@ const buttonText: StyleProp<TextStyle> = {
   fontWeight: 'bold',
 };
 
-export const theme = {
+export const STYLES = {
   dark: {
     con: {
       backgroundColor: '#121212',

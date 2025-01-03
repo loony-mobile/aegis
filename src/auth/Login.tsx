@@ -12,8 +12,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {handleError} from '../utils';
 import Text from '../components/Text';
 import {Indicator, AuthStatus} from '../types';
-import {theme, styles} from '../styles';
+import {STYLES, styles} from '../styles';
 import Button from '../components/Button';
+import {useTheme} from '../context/AppProvider';
 
 const rnBiometrics = new ReactNativeBiometrics();
 const expiryTime = Date.now() + 60 * 60 * 1000; // 1 hour in milliseconds
@@ -23,6 +24,7 @@ function Login({
   authContext,
   appContext,
 }: any): React.JSX.Element {
+  const appTheme = useTheme();
   const {setAuthContext} = authContext;
 
   const [loginState, setLoginState] = useState({
@@ -162,9 +164,10 @@ function Login({
       password: value,
     });
   };
+  const theme = STYLES[appTheme];
 
   return (
-    <View style={[theme.dark.con, styles.container]}>
+    <View style={[theme.con, styles.container]}>
       <View style={styles.logoCon}>
         <View style={styles.logo}>
           <Text style={styles.title}>Aegis</Text>
@@ -199,8 +202,9 @@ function Login({
         text="Login"
         onPress={handleLogin}
         loadingIndicator={loadingIndicator}
+        theme={theme}
       />
-      <View style={theme.border} />
+      <View style={STYLES.border} />
       <TouchableOpacity style={styles.createAccount} onPress={handleSignup}>
         <Text style={styles.createAccountText}>Create Account</Text>
       </TouchableOpacity>

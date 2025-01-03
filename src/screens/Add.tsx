@@ -1,16 +1,19 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {theme} from '../styles';
+import {STYLES} from '../styles';
 import axios from 'axios';
 import {handleError} from '../utils';
 import TextInput from '../components/TextInput';
 import ButtonTextInput from '../components/ButtonTextInput';
+import {useTheme} from '../context/AppProvider';
 
 export default function Add(props: any) {
   const {appContext, authContext} = props.route.params;
   const {base_url} = appContext;
   const user_id: number = authContext.user.uid;
 
+  const appTheme = useTheme();
+  const theme = STYLES[appTheme];
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [url, setUrl] = useState('');
@@ -40,7 +43,7 @@ export default function Add(props: any) {
   };
 
   return (
-    <View style={[styles.container, theme.dark.con]}>
+    <View style={[styles.container, theme.con]}>
       {error ? <Text style={styles.error}>{error}</Text> : null}
 
       <TextInput placeholder="Name" value={name} onChangeText={setName} />
@@ -59,8 +62,8 @@ export default function Add(props: any) {
         onIconPress={onIconPress}
         secureTextEntry={secureTextEntry}
       />
-      <TouchableOpacity style={theme.dark.button} onPress={saveCred}>
-        <Text style={theme.dark.btnText}>Add</Text>
+      <TouchableOpacity style={theme.button} onPress={saveCred}>
+        <Text style={theme.btnText}>Add</Text>
       </TouchableOpacity>
     </View>
   );

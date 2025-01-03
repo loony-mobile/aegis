@@ -1,12 +1,16 @@
 import React, {useState} from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import {theme, styles} from '../styles';
+import {STYLES, styles} from '../styles';
 import Text from '../components/Text';
 import TextInput from '../components/TextInput';
 import ButtonTextInput from '../components/ButtonTextInput';
 import axios from 'axios';
+import {useTheme} from '../context/AppProvider';
 
 function Signup({setComponentState, appContext}: any): React.JSX.Element {
+  const appTheme = useTheme();
+  const theme = STYLES[appTheme];
+
   const [signupState, setLoginState] = useState({
     firstname: '',
     lastname: '',
@@ -99,7 +103,7 @@ function Signup({setComponentState, appContext}: any): React.JSX.Element {
   };
 
   return (
-    <View style={[styles.container, theme.dark.con]}>
+    <View style={[styles.container, theme.con]}>
       <View style={styles.logoCon}>
         <View style={styles.logo}>
           <Text style={styles.title}>Aegis</Text>
@@ -136,11 +140,11 @@ function Signup({setComponentState, appContext}: any): React.JSX.Element {
       />
       {passwordError ? <Text style={styles.error}>{passwordError}</Text> : null}
 
-      <TouchableOpacity style={[theme.dark.button]} onPress={handleSignup}>
-        <Text style={[theme.dark.btnText]}>Signup</Text>
+      <TouchableOpacity style={[theme.button]} onPress={handleSignup}>
+        <Text style={[theme.btnText]}>Signup</Text>
       </TouchableOpacity>
 
-      <View style={theme.border} />
+      <View style={STYLES.border} />
       <TouchableOpacity style={styles.createAccount} onPress={handleLogin}>
         <Text style={styles.createAccountText}>Login</Text>
       </TouchableOpacity>

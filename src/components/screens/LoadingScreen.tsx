@@ -6,9 +6,12 @@ import {
   StyleSheet,
   Animated,
 } from 'react-native';
-import {theme} from '../../styles/index';
+import {STYLES} from '../../styles/index';
+import {useTheme} from '../../context/AppProvider';
 
 const LoadingScreen = () => {
+  const appTheme = useTheme();
+  const theme = STYLES[appTheme];
   // Initialize animation state
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -31,7 +34,7 @@ const LoadingScreen = () => {
   }, [fadeAnim]);
 
   return (
-    <View style={[theme.dark.con, styles.container]}>
+    <View style={[theme.con, styles.container]}>
       {/* Logo or Text with Fading Animation */}
       <Animated.View style={{opacity: fadeAnim}}>
         <Text style={styles.logoText}>Aegis</Text>

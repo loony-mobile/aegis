@@ -12,12 +12,13 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Text from '../components/Text';
 import Edit from './Edit';
-import {theme, styles as defaultStyles} from '../styles';
+import {STYLES, styles as defaultStyles} from '../styles';
 import {handleError} from '../utils';
+import {useTheme} from '../context/AppProvider';
 const Stack = createStackNavigator();
 
 const Card = (props: any) => {
-  const {item, index, navigation} = props;
+  const {item, index, navigation, theme} = props;
 
   const navEdit = () => {
     navigation.navigate('Edit', item);
@@ -27,7 +28,7 @@ const Card = (props: any) => {
     <TouchableOpacity onLongPress={navEdit}>
       <View
         key={index}
-        style={[theme.dark.card, styles.card, defaultStyles.boxShadow]}>
+        style={[theme.card, styles.card, defaultStyles.boxShadow]}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{item.name}</Text>
         </View>
@@ -49,6 +50,8 @@ const Creds = (props: any) => {
   const user_id = authContext.user.uid;
   const {base_url} = appContext;
 
+  const appTheme = useTheme();
+  const theme = STYLES[appTheme];
   const [creds, setCreds] = useState<any[] | null>(null);
   const [refreshing, setRefreshing] = useState(true);
   const [_, setError] = useState('');
@@ -75,10 +78,10 @@ const Creds = (props: any) => {
   }, []);
 
   return (
-    <View style={[theme.dark.con, styles.container]}>
+    <View style={[theme.con, styles.container]}>
       <FlatList
         data={creds}
-        renderItem={(item: any) => <Card {...item} {...props} />}
+        renderItem={(item: any) => <Card {...item} {...props} theme={theme} />}
         keyExtractor={(item: any) => item.name}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

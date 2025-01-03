@@ -25,7 +25,6 @@ export default function TextInputComponent({
         placeholder={placeholder}
         value={value}
         onChangeText={onChangeText}
-        keyboardType="password"
         autoCapitalize="none"
         secureTextEntry={secureTextEntry}
       />
