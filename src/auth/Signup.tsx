@@ -3,7 +3,7 @@ import {View, TouchableOpacity} from 'react-native';
 import {STYLES, styles} from '../styles';
 import Text from '../components/Text';
 import TextInput from '../components/TextInput';
-import ButtonTextInput from '../components/ButtonTextInput';
+import TextInputIcon from '../components/TextInputIcon';
 import axios from 'axios';
 import {useTheme} from '../context/AppProvider';
 
@@ -116,29 +116,33 @@ function Signup({setComponentState, appContext}: any): React.JSX.Element {
         placeholder="First name"
         value={signupState.firstname}
         onChangeText={setFirstname}
+        theme={theme}
       />
 
       <TextInput
         placeholder="Last name"
         value={signupState.lastname}
         onChangeText={setLastname}
+        theme={theme}
       />
 
       <TextInput
         placeholder="Email"
         value={signupState.email}
         onChangeText={setEmail}
+        theme={theme}
       />
-      {emailError ? <Text style={styles.error}>{emailError}</Text> : null}
+      {emailError ? <Text style={theme.error}>{emailError}</Text> : null}
 
-      <ButtonTextInput
+      <TextInputIcon
         value={signupState.password}
         onChangeText={setPassword}
         secureTextEntry={secureTextEntry}
         onIconPress={onIconPress}
         placeholder="Password"
+        theme={theme}
       />
-      {passwordError ? <Text style={styles.error}>{passwordError}</Text> : null}
+      {passwordError ? <Text style={theme.error}>{passwordError}</Text> : null}
 
       <TouchableOpacity style={[theme.button]} onPress={handleSignup}>
         <Text style={[theme.btnText]}>Signup</Text>

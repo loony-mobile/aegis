@@ -4,7 +4,7 @@ import {STYLES} from '../styles';
 import axios from 'axios';
 import {handleError} from '../utils';
 import TextInput from '../components/TextInput';
-import ButtonTextInput from '../components/ButtonTextInput';
+import ButtonTextInput from '../components/TextInputIcon';
 import {useTheme} from '../context/AppProvider';
 
 export default function Add(props: any) {

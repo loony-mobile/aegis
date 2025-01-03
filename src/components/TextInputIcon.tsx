@@ -2,23 +2,25 @@ import React from 'react';
 import {TextInput, View, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-interface TextInputProps {
+interface TextInputIconProps {
   value: string;
   onChangeText: (_: any) => Promise<void> | void;
   onIconPress?: () => Promise<void> | void;
   secureTextEntry: boolean;
   placeholder: string;
+  theme?: any;
 }
 
-export default function TextInputComponent({
+export default function TextInputIcon({
   value,
   onChangeText,
   onIconPress,
   secureTextEntry,
   placeholder,
-}: TextInputProps) {
+  theme,
+}: TextInputIconProps) {
   return (
-    <View style={styles.inputContainer}>
+    <View style={[theme.textInputCon, styles.inputContainer]}>
       <TextInput
         placeholderTextColor="#ccc"
         style={styles.input}
@@ -39,8 +41,6 @@ export const styles = StyleSheet.create({
   inputContainer: {
     height: 50,
     flexDirection: 'row',
-    backgroundColor: '#1E1E1E',
-    borderRadius: 10,
     marginVertical: 5,
   },
   input: {

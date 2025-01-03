@@ -7,7 +7,7 @@ import axios from 'axios';
 import {handleError} from '../utils';
 import {Indicator} from '../types';
 import TextInput from '../components/TextInput';
-import ButtonTextInput from '../components/ButtonTextInput';
+import ButtonTextInput from '../components/TextInputIcon';
 import {useTheme} from '../context/AppProvider';
 
 export default function Edit(props: any) {

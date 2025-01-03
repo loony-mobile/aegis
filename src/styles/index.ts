@@ -1,4 +1,4 @@
-import {StyleProp, StyleSheet, TextStyle} from 'react-native';
+import {StyleProp, StyleSheet, TextStyle, ViewStyle} from 'react-native';
 export const darkTheme = {
   background: '#121212',
   surface: '#1E1E1E',
@@ -22,8 +22,26 @@ const buttonText: StyleProp<TextStyle> = {
   fontWeight: 'bold',
 };
 
+const darkButton: StyleProp<ViewStyle> = {
+  height: 50,
+  backgroundColor: '#e0e0e0',
+  borderRadius: 10,
+  marginTop: 10,
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: 0,
+};
+
+const lightButton: StyleProp<ViewStyle> = {
+  ...darkButton,
+  backgroundColor: '#e0e0e0',
+};
+
 export const STYLES = {
   dark: {
+    textInputCon: {
+      backgroundColor: '#121212',
+    },
     con: {
       backgroundColor: '#121212',
     },
@@ -33,12 +51,7 @@ export const STYLES = {
     card: {
       backgroundColor: '#1E1E1E',
     },
-    button: {
-      height: 50,
-      backgroundColor: '#e0e0e0',
-      borderRadius: 10,
-      marginTop: 10,
-    },
+    button: darkButton,
     btnDelete: {
       height: 50,
       backgroundColor: '#1E1E1E',
@@ -54,16 +67,48 @@ export const STYLES = {
       fontWeight: 'bold',
     },
     btnText: buttonText,
+    error: {
+      color: 'white',
+      marginBottom: 10,
+      fontSize: 14,
+    },
   },
   light: {
+    textInputCon: {
+      backgroundColor: '#ffffff',
+      borderWidth: 1,
+      borderColor: '#ccc',
+      borderRadius: 10,
+    },
     con: {
-      backgroundColor: '#fff',
+      backgroundColor: '#ffffff',
     },
     text: {
       color: '#2d2d2d',
     },
     card: {
       backgroundColor: '#ccc',
+    },
+    button: lightButton,
+    btnDelete: {
+      height: 50,
+      backgroundColor: '#1E1E1E',
+      borderRadius: 10,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 10,
+    },
+    btnDeleteText: {
+      color: '#ffffff',
+      fontSize: 18,
+      textAlign: 'center',
+      fontWeight: 'bold',
+    },
+    btnText: buttonText,
+    error: {
+      color: 'black',
+      marginBottom: 10,
+      fontSize: 14,
     },
   },
   border: {

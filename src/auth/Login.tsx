@@ -2,7 +2,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, Alert, TouchableOpacity} from 'react-native';
 import ReactNativeBiometrics, {BiometryTypes} from 'react-native-biometrics';
-import ButtonTextInput from '../components/ButtonTextInput';
+import TextInputIcon from '../components/TextInputIcon';
 import TextInput from '../components/TextInput';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -186,17 +186,19 @@ function Login({
         placeholder="Email"
         value={loginState.email}
         onChangeText={setEmail}
+        theme={theme}
       />
-      {emailError ? <Text style={styles.error}>{emailError}</Text> : null}
+      {emailError ? <Text style={theme.error}>{emailError}</Text> : null}
 
-      <ButtonTextInput
+      <TextInputIcon
         value={loginState.password}
         onChangeText={setPassword}
         secureTextEntry={secureTextEntry}
         onIconPress={onIconPress}
         placeholder="Password"
+        theme={theme}
       />
-      {passwordError ? <Text style={styles.error}>{passwordError}</Text> : null}
+      {passwordError ? <Text style={theme.error}>{passwordError}</Text> : null}
 
       <Button
         text="Login"
