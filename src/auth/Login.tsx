@@ -7,7 +7,6 @@ import TextInput from '../components/TextInput';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {handleError} from '../utils';
 import Text from '../components/Text';
@@ -134,7 +133,10 @@ function Login({
             });
             setLoadingIndicator(Indicator.IDLE);
           })
-          .catch(e => handleError(e, setAppError));
+          .catch(e => {
+            handleError(e, setAppError);
+            setLoadingIndicator(Indicator.IDLE);
+          });
       } catch (error) {
         setLoadingIndicator(Indicator.IDLE);
       }
@@ -177,8 +179,7 @@ function Login({
       </View>
       {appError ? (
         <View>
-          <Icon name="error" size={18} color="red" />
-          <Text style={styles.error}>{appError}</Text>
+          <Text style={theme.error}>{appError}</Text>
         </View>
       ) : null}
 

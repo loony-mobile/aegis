@@ -46,13 +46,24 @@ export default function Add(props: any) {
     <View style={[styles.container, theme.con]}>
       {error ? <Text style={styles.error}>{error}</Text> : null}
 
-      <TextInput placeholder="Name" value={name} onChangeText={setName} />
+      <TextInput
+        placeholder="Name"
+        value={name}
+        onChangeText={setName}
+        theme={theme}
+      />
 
-      <TextInput placeholder="Url" value={url} onChangeText={setUrl} />
+      <TextInput
+        placeholder="Url"
+        value={url}
+        onChangeText={setUrl}
+        theme={theme}
+      />
       <TextInput
         placeholder="Email"
         value={username}
         onChangeText={setUsername}
+        theme={theme}
       />
 
       <ButtonTextInput
@@ -61,6 +72,7 @@ export default function Add(props: any) {
         onChangeText={setPassword}
         onIconPress={onIconPress}
         secureTextEntry={secureTextEntry}
+        theme={theme}
       />
       <TouchableOpacity style={theme.button} onPress={saveCred}>
         <Text style={theme.btnText}>Add</Text>

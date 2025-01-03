@@ -18,7 +18,7 @@ export default function TextInputComponent({
     <View style={[theme.textInputCon, styles.inputContainer]}>
       <TextInput
         placeholderTextColor="#ccc"
-        style={styles.input}
+        style={theme.textInput}
         placeholder={placeholder}
         value={value}
         onChangeText={onChangeText}

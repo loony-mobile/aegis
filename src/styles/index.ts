@@ -41,6 +41,17 @@ export const STYLES = {
   dark: {
     textInputCon: {
       backgroundColor: '#121212',
+      borderWidth: 1,
+      borderColor: '#2d2d2d',
+      borderRadius: 10,
+    },
+    textInput: {
+      marginLeft: 6,
+      height: 46,
+      marginBottom: 10,
+      paddingHorizontal: 10,
+      color: '#ccc',
+      width: '85%',
     },
     con: {
       backgroundColor: '#121212',
@@ -79,6 +90,14 @@ export const STYLES = {
       borderWidth: 1,
       borderColor: '#ccc',
       borderRadius: 10,
+    },
+    textInput: {
+      marginLeft: 6,
+      height: 46,
+      marginBottom: 10,
+      paddingHorizontal: 10,
+      color: '#2d2d2d',
+      width: '85%',
     },
     con: {
       backgroundColor: '#ffffff',
