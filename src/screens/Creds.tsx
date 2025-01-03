@@ -26,9 +26,7 @@ const Card = (props: any) => {
 
   return (
     <TouchableOpacity onLongPress={navEdit}>
-      <View
-        key={index}
-        style={[theme.card, styles.card, defaultStyles.boxShadow]}>
+      <View key={index} style={[theme.card, styles.card]}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{item.name}</Text>
         </View>
@@ -113,6 +111,7 @@ export default function Routes(props: any) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 10,
   },
   flexRow: {
     flex: 1,
@@ -128,12 +127,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   card: {
-    flex: 1,
-    borderRadius: 8,
-    overflow: 'hidden',
-    marginVertical: 5,
-    marginHorizontal: 5,
-    padding: 16,
+    padding: 18,
   },
   image: {
     width: '100%',

@@ -6,6 +6,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import HomeScreen from '../screens/Creds';
 import ProfileScreen from '../screens/Profile';
 import AddScreen from '../screens/Add';
+import {useTheme} from '../context/AppProvider';
+import {STYLES} from '../styles';
 
 const tabBarIcon = ({route, focused, color, size}: any) => {
   let iconName = 'home';
@@ -21,31 +23,33 @@ const tabBarIcon = ({route, focused, color, size}: any) => {
   return <Icon name={iconName} size={size} color={color} />;
 };
 
-const screenOptions = ({route}: any) => ({
-  headerStyle: {
-    backgroundColor: '#1E1E1E',
-  },
-  headerTintColor: '#ffffff',
-  headerTitleStyle: {
-    fontWeight: 'bold',
-  },
-  tabBarShowLabel: false,
-  tabBarIcon: ({focused, size}: any) =>
-    tabBarIcon({
-      route,
-      focused,
-      color: '#cccccc',
-      size,
-    }),
-  tabBarActiveTintColor: '#cccccc',
-  tabBarInactiveTintColor: '#cccccc',
-  tabBarStyle: {backgroundColor: '#1E1E1E', borderTopWidth: 0},
-});
-
 // Create a Bottom Tab Navigator
 const Tab = createBottomTabNavigator();
 
 export default function UserRoutes(props: any) {
+  const appTheme = useTheme();
+  const theme = STYLES[appTheme];
+
+  const screenOptions = ({route}: any) => ({
+    headerStyle: theme.headerStyle,
+    headerTintColor: theme.headerTintColor,
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+    tabBarShowLabel: false,
+    tabBarIcon: ({focused, size}: any) =>
+      tabBarIcon({
+        route,
+        focused,
+        color: theme.tabBarIconColor,
+        size,
+      }),
+    tabBarActiveTintColor: theme.tabBarActiveTintColor,
+    tabBarInactiveTintColor: theme.tabBarInactiveTintColor,
+    tabBarStyle: theme.tabBarStyle,
+    headerShadowVisible: true,
+  });
+
   return (
     <NavigationContainer>
       <Tab.Navigator initialRouteName="Home" screenOptions={screenOptions}>

@@ -125,11 +125,13 @@ export default function Edit(props: any) {
         text="Update"
         loadingIndicator={loadingIndicator}
         onPress={updateCred}
+        theme={theme}
       />
       <DeleteButton
         text="Delete"
         loadingIndicator={loadingIndicator}
         onPress={confirmDelete}
+        theme={theme}
       />
     </View>
   );

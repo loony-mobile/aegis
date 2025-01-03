@@ -39,11 +39,22 @@ const lightButton: StyleProp<ViewStyle> = {
 
 export const STYLES = {
   dark: {
+    headerStyle: {
+      backgroundColor: '#1E1E1E',
+    },
+    tabBarIconColor: '#cccccc',
+    headerTintColor: '#ffffff',
+    tabBarActiveTintColor: '#cccccc',
+    tabBarInactiveTintColor: '#cccccc',
     textInputCon: {
       backgroundColor: '#121212',
       borderWidth: 1,
       borderColor: '#2d2d2d',
       borderRadius: 10,
+    },
+    tabBarStyle: {
+      backgroundColor: '#1E1E1E',
+      borderTopWidth: 0,
     },
     textInput: {
       marginLeft: 6,
@@ -85,6 +96,21 @@ export const STYLES = {
     },
   },
   light: {
+    headerStyle: {
+      backgroundColor: '#ffffff',
+      borderBottomWidth: 1,
+      borderBottomColor: '#ccc',
+      marginBottom: 5,
+    },
+    tabBarIconColor: '#2d2d2d',
+    headerTintColor: '#2d2d2d',
+    tabBarActiveTintColor: '#2d2d2d',
+    tabBarInactiveTintColor: '#2d2d2d',
+    tabBarStyle: {
+      backgroundColor: '#ffffff',
+      borderTopWidth: 1,
+      borderTopColor: '#ccc',
+    },
     textInputCon: {
       backgroundColor: '#ffffff',
       borderWidth: 1,
@@ -106,7 +132,12 @@ export const STYLES = {
       color: '#2d2d2d',
     },
     card: {
-      backgroundColor: '#ccc',
+      borderWidth: 1,
+      borderColor: '#ccc',
+      width: '96%',
+      marginRight: '2%',
+      marginLeft: '2%',
+      borderRadius: 15,
     },
     button: lightButton,
     btnDelete: {
