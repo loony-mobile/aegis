@@ -1,0 +1,17 @@
+[target.aarch64-linux-android]
+ar = "/home/sankar/Android/Sdk/ndk/26.1.10909125/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar"
+linker = "/home/sankar/Android/Sdk/ndk/26.1.10909125/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android31-clang"
+
+[target.arm-linux-androideabi]
+ar = "/home/sankar/Android/Sdk/ndk/26.1.10909125/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar"
+linker = "/home/sankar/Android/Sdk/ndk/26.1.10909125/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi31-clang"
+
+[target.i686-linux-android]
+ar = "/home/sankar/Android/Sdk/ndk/26.1.10909125/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar"
+linker = "/home/sankar/Android/Sdk/ndk/26.1.10909125/toolchains/llvm/prebuilt/linux-x86_64/bin/i686-linux-android31-clang"
+
+[target.x86_64-linux-android]
+ar = "/home/sankar/Android/Sdk/ndk/26.1.10909125/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar"
+linker = "/home/sankar/Android/Sdk/ndk/26.1.10909125/toolchains/llvm/prebuilt/linux-x86_64/bin/x86_64-linux-android31-clang"
+
+[target.armv7-linux-androideabi]
