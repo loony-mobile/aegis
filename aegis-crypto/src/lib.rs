@@ -17,7 +17,7 @@ pub mod android {
     use self::jni::sys::{jstring};
 
     #[no_mangle]
-    pub unsafe extern fn Java_com_aegis_crypto_helloWorld(env: JNIEnv, _: JClass) -> jstring {
+    pub unsafe extern fn Java_com_aegis_AegisCryptoModule_helloWorld(env: JNIEnv, _: JClass) -> jstring {
         let output: JString<'_> = env.new_string("Hello World!").expect("Couldn't create java string!");
         output.into_raw()
     }

@@ -7,6 +7,10 @@ import AuthRoutes from './routes/AuthRoutes';
 import UserRoutes from './routes/UserRoutes';
 import {AuthStatus} from './types';
 
+import {NativeModules} from 'react-native';
+
+console.log(NativeModules);
+
 function App(): React.JSX.Element {
   return (
     <AppProvider>
