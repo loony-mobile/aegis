@@ -9,7 +9,13 @@ import {AuthStatus} from './types';
 
 import {NativeModules} from 'react-native';
 
-console.log(NativeModules);
+NativeModules.AegisCryptoModule.getHelloWorld()
+  .then((result: string) => {
+    console.log('getHelloWorld', result);
+  })
+  .catch((error: Error) => {
+    console.log(error);
+  });
 
 function App(): React.JSX.Element {
   return (

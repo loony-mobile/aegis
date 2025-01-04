@@ -1,4 +1,4 @@
-package com.aegis
+package com.aegiscrypto
 
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule

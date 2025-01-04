@@ -1,4 +1,4 @@
-package com.aegis // replace your-app-name with your app’s name
+package com.aegiscrypto // replace your-app-name with your app’s name
 
 import android.view.View
 import com.facebook.react.ReactPackage
