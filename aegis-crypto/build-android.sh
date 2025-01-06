@@ -29,3 +29,5 @@ CXX=$TOOLS/bin/${NDK_TARGET}${API_VERSION}-clang++ \
 RANDLIB=$TOOLS/bin/llvm-ranlib \
 CXXFLAGS="--target=$NDK_TARGET" \
 cargo build --target $TARGET --release $EXTRA_ARGS 
+
+# ./build-android.sh x86_64-linux-android
