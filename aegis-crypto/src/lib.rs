@@ -1,3 +1,5 @@
+mod crypto;
+
 extern crate jni;
 
 // use aes::Aes256;
