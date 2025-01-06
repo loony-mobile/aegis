@@ -9,12 +9,14 @@ import {AuthStatus} from './types';
 
 import {NativeModules} from 'react-native';
 
-NativeModules.AegisCryptoModule.getHelloWorld()
-  .then((result: string) => {
-    console.log('getHelloWorld', result);
+console.log(NativeModules.AegisCryptoModule);
+
+NativeModules.AegisCryptoModule.getEncrypt('Sankar')
+  .then(res => {
+    console.log(res);
   })
-  .catch((error: Error) => {
-    console.log(error);
+  .catch(e => {
+    console.log(e);
   });
 
 function App(): React.JSX.Element {

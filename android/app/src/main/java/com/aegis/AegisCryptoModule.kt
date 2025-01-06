@@ -18,10 +18,36 @@ class AegisCryptoModule(reactContext: ReactApplicationContext) : ReactContextBas
 
     external fun helloWorld(): String
 
+    external fun encrypt(text: String): String
+
+    external fun decrypt(text: String): String
+
     @ReactMethod
     fun getHelloWorld(promise: Promise) {
         try {
             val result = helloWorld()
+            promise.resolve(result)
+        } catch (e: Exception) {
+            promise.reject("RUST_ERROR", e)
+        }
+    }
+
+
+    @ReactMethod
+    fun getEncrypt(text: String, promise: Promise) {
+        try {
+            val result = encrypt(text)
+            promise.resolve(result)
+        } catch (e: Exception) {
+            promise.reject("RUST_ERROR", e)
+        }
+    }
+
+
+    @ReactMethod
+    fun getDecrypt(text: String, promise: Promise) {
+        try {
+            val result = decrypt(text)
             promise.resolve(result)
         } catch (e: Exception) {
             promise.reject("RUST_ERROR", e)
