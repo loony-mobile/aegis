@@ -7,18 +7,6 @@ import AuthRoutes from './routes/AuthRoutes';
 import UserRoutes from './routes/UserRoutes';
 import {AuthStatus} from './types';
 
-import {NativeModules} from 'react-native';
-
-console.log(NativeModules.AegisCryptoModule);
-
-NativeModules.AegisCryptoModule.getEncrypt('Sankar')
-  .then(res => {
-    console.log(res);
-  })
-  .catch(e => {
-    console.log(e);
-  });
-
 function App(): React.JSX.Element {
   return (
     <AppProvider>
