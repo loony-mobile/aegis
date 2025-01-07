@@ -27,15 +27,18 @@ pub fn encrypt(plain_text: &str, secret_key: &str) -> Result<String, AegisError>
 
     let nonce = Aes256Gcm::generate_nonce(&mut OsRng); // 96-bits; unique per message
     let ciphertext = cipher.encrypt(&nonce, plain_text.as_ref())?;
-
-    Ok(json!({
+    let jres = json!({
         "nonce": nonce.to_vec(),
         "text": ciphertext
-    }).to_string())
+    }).to_string();
+    let hexed = hex::encode(jres.as_bytes());
+    Ok(hexed)
 }
 
 pub fn decrypt(cipher_text: &str, secret_key: &str) -> Result<String, AegisError> {
-    let enc: EncryptedResponse = serde_json::from_str(cipher_text)?;
+    let dec = hex::decode(cipher_text)?;
+    let cipher_text = String::from_utf8(dec)?;
+    let enc: EncryptedResponse = serde_json::from_str(&cipher_text)?;
     let mut key: [u8; 32] = [0; 32];
     let slice = secret_key.as_bytes();
     key[..slice.len()].copy_from_slice(slice);

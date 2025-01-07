@@ -26,3 +26,9 @@ impl From<std::string::FromUtf8Error> for AegisError {
         AegisError { message: value.to_string() }
     }
 }
+
+impl From<hex::FromHexError> for AegisError {
+    fn from(value: hex::FromHexError) -> Self {
+        AegisError { message: value.to_string() }
+    }
+}
