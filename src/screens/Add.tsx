@@ -6,6 +6,7 @@ import {handleError} from '../utils';
 import TextInput from '../components/TextInput';
 import ButtonTextInput from '../components/TextInputIcon';
 import {useTheme} from '../context/AppProvider';
+import {NativeModules} from 'react-native';
 
 export default function Add(props: any) {
   const {appContext, authContext} = props.route.params;
@@ -18,24 +19,31 @@ export default function Add(props: any) {
   const [username, setUsername] = useState('');
   const [url, setUrl] = useState('');
   const [password, setPassword] = useState('');
+  const [secret_key, setSecretKey] = useState('');
   const [error, setError] = useState('');
   const [secureTextEntry, setSecureTextEntry] = useState(true);
 
-  const saveCred = () => {
+  const saveCred = async () => {
     setError('');
-    axios
-      .post(`${base_url}/creds/add`, {
-        user_id,
-        name,
-        username,
-        url,
+    try {
+      const enc_text = NativeModules.AegisCryptoModule.encrypt(
         password,
-        metadata: '',
-      })
-      .then(() => {})
-      .catch(e => {
-        handleError(e, setError);
-      });
+        secret_key,
+      );
+      axios
+        .post(`${base_url}/creds/add`, {
+          user_id,
+          name,
+          username,
+          url,
+          password: enc_text,
+          metadata: '',
+        })
+        .then(() => {})
+        .catch(e => {
+          handleError(e, setError);
+        });
+    } catch (error) {}
   };
 
   const onIconPress = () => {
@@ -74,6 +82,14 @@ export default function Add(props: any) {
         secureTextEntry={secureTextEntry}
         theme={theme}
       />
+
+      <TextInput
+        placeholder="Secret Key"
+        value={secret_key}
+        onChangeText={setSecretKey}
+        theme={theme}
+      />
+
       <TouchableOpacity style={theme.button} onPress={saveCred}>
         <Text style={theme.btnText}>Add</Text>
       </TouchableOpacity>

@@ -12,7 +12,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import Text from '../components/Text';
 import Edit from './Edit';
-import {STYLES, styles as defaultStyles} from '../styles';
+import {STYLES} from '../styles';
 import {handleError} from '../utils';
 import {useTheme} from '../context/AppProvider';
 const Stack = createStackNavigator();

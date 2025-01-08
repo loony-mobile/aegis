@@ -1,8 +1,5 @@
 use crate::credentials;
-use crate::user::{get_subscribed_users, subscribe_user, un_subscribe_user};
-use crate::{
-    auth::logout
-};
+use crate::auth::logout;
 use axum::{
     extract::DefaultBodyLimit,
     http::{header, StatusCode},
@@ -12,7 +9,7 @@ use axum::{
 };
 use tower::ServiceBuilder;
 use tower_http::limit::RequestBodyLimitLayer;
-use crate::file::{get_file, get_tmp_file, upload_file};
+use crate::file::{get_tmp_file, upload_file};
 
 use crate::{
     auth::{get_user_session, login, signup},
@@ -65,15 +62,9 @@ pub async fn create_router(connection: AppState, cors: CorsLayer) -> Router {
         .route("/edit", post(credentials::edit))
         .route("/get/:user_id", get(credentials::get));
 
-    let user_routes = Router::new()
-        .route("/:user_id/subscribe", post(subscribe_user))
-        .route("/:user_id/un_subscribe", post(un_subscribe_user))
-        .route("/get_subscribed_users", get(get_subscribed_users));
-
     Router::new()
         .nest("/v2/auth", auth_routes)
         .nest("/v2/creds", cred_routes)
-        .nest("/v2/user", user_routes)
         .route("/v2/upload_file", post(upload_file))
         .route("/v2/tmp/:uid/:size/:filename", get(get_tmp_file))
         .route("/", get(home))

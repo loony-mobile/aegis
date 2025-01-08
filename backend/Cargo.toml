@@ -40,3 +40,4 @@ log = "0.4.2"
 # Search
 tantivy = "0.22.0"
 tempfile = "3.14.0"
+rand = "0.8.5"

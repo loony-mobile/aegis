@@ -30,7 +30,7 @@ export default function Edit(props: any) {
       setName(params.name);
       setUsername(params.username);
       setUrl(params.url);
-      setPassword(params.password);
+      setPassword('*****');
     }
   }, []);
 

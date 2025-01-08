@@ -7,7 +7,6 @@ mod route;
 mod search;
 mod traits;
 mod types;
-mod user;
 mod utils;
 
 use axum::http::{

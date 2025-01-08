@@ -1,4 +1,5 @@
 use std::str::FromStr;
+use rand::{distributions::Alphanumeric, Rng};
 
 use crate::error::AppError;
 use crate::AppState;
@@ -164,6 +165,13 @@ pub async fn signup(
     Json(body): Json<SignupForm>,
 ) -> Result<impl IntoResponse, AppError> {
     body.validate()?;
+
+    let random_string: String = rand::thread_rng()
+    .sample_iter(&Alphanumeric)
+    .take(16) // Length of the string
+    .map(char::from)
+    .collect();
+
     let conn = state.pg_pool.get().await?;
 
     let row = conn
@@ -177,15 +185,26 @@ pub async fn signup(
         return Err(AppError::InternalServerError("User exists".to_string()));
     }
 
+    let query1 = conn.prepare("INSERT INTO users(email, password, fname, lname) values($1, $2, $3, $4) RETURNING uid").await?;
+    let query2 = conn.prepare("INSERT INTO secret_keys(user_id, prev_secret_key, secret_key) VALUES($1, $2, $3)").await?;
+
     let hashed_password = hash(&body.password, DEFAULT_COST)?;
+    let res = conn
+        .query_one(
+            &query1,
+            &[&body.email, &hashed_password, &body.fname, &body.lname],
+        )
+        .await?;
+    let user_id: i32 = res.get(0);
     conn
         .execute(
-            "INSERT INTO users(email, password, fname, lname) values($1, $2, $3, $4) RETURNING uid",
-            &[&body.email, &hashed_password, &body.fname, &body.lname],
+            &query2,
+            &[&user_id, &random_string, &random_string],
         )
         .await?;
 
     let user_response = json!({
+        "uid": user_id,
         "email": &body.email.clone(),
         "fname": &body.fname.clone(),
         "lname": &body.lname.clone(),
