@@ -9,9 +9,10 @@ import {Indicator} from '../types';
 import TextInput from '../components/TextInput';
 import ButtonTextInput from '../components/TextInputIcon';
 import {useTheme} from '../context/AppProvider';
+import {NativeModules} from 'react-native';
 
 export default function Edit(props: any) {
-  const {appContext} = props.route.params;
+  const {appContext, authContext} = props.route.params;
   const {base_url} = appContext;
 
   const appTheme = useTheme();
@@ -21,6 +22,7 @@ export default function Edit(props: any) {
   const [username, setUsername] = useState('');
   const [url, setUrl] = useState('');
   const [password, setPassword] = useState('');
+  const [master_key, setMasterKey] = useState('');
   const [error, setError] = useState('');
   const [secureTextEntry, setSecureTextEntry] = useState(true);
 
@@ -65,7 +67,13 @@ export default function Edit(props: any) {
       });
   };
 
-  const onIconPress = () => {
+  const onIconPress = async () => {
+    console.log(authContext.user.secret_key + master_key);
+    const dec_text = await NativeModules.AegisCryptoModule.decrypt(
+      props.route.params.password,
+      authContext.user.secret_key + master_key,
+    );
+    setPassword(dec_text);
     setSecureTextEntry(!secureTextEntry);
   };
 
@@ -118,6 +126,13 @@ export default function Edit(props: any) {
         onChangeText={setPassword}
         onIconPress={onIconPress}
         secureTextEntry={secureTextEntry}
+        theme={theme}
+      />
+
+      <TextInput
+        placeholder="Master Key"
+        value={master_key}
+        onChangeText={setMasterKey}
         theme={theme}
       />
 

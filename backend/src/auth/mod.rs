@@ -89,26 +89,38 @@ pub async fn login(
     Json(body): Json<LoginForm>,
 ) -> Result<impl IntoResponse, AppError> {
     body.validate()?;
-    let secret_key = std::env::var("V2_SECRET_KEY").unwrap();
 
     let conn = pool.pg_pool.get().await?;
-    let row = conn
+    let users_row = conn
         .query_opt(
             "select uid, fname, lname, password from users where email=$1",
             &[&body.email],
         )
         .await?;
-
-    if row.is_none() {
+    
+    let users_row = if let Some(users) = users_row {
+        users
+    } else {
         return Err(AppError::InternalServerError("User not found".to_string()));
-    }
+    };
+    
+    let user_id: i32 = users_row.get(0);
+    let fname: String = users_row.get(1);
+    let lname: String = users_row.get(2);
+    let password: String = users_row.get(3);
+    
+    let secret_keys_row = conn
+    .query_opt(
+        "select secret_key from secret_keys where user_id=$1",
+        &[&user_id],
+    )
+    .await?;
 
-    let row = row.unwrap();
-
-    let uid: i32 = row.get(0);
-    let fname: String = row.get(1);
-    let lname: String = row.get(2);
-    let password: String = row.get(3);
+    let secret_keys_row = if let Some(secret_key) = secret_keys_row {
+        secret_key
+    } else {
+        return Err(AppError::InternalServerError("Secret key for user not found.".to_string()));
+    };
 
     let is_valid_password = verify(&body.password, &password)?;
 
@@ -118,11 +130,14 @@ pub async fn login(
         ));
     }
 
+    let secret_key: String = secret_keys_row.get(0);
+
     let user_response = json!({
-        "uid": uid,
+        "uid": user_id,
         "email": &body.email.clone(),
         "fname": fname.clone(),
         "lname": lname.clone(),
+        "secret_key": secret_key,
     });
     let current_time = Local::now();
     let expiration_time = current_time + ChronoDuration::days(3);
@@ -131,7 +146,7 @@ pub async fn login(
         data: UserData {
             fname: fname.clone(),
             lname: lname.clone(),
-            uid: uid,
+            uid: user_id,
         },
         exp: expiration_time.timestamp() as usize,
         aud: None,
@@ -160,7 +175,7 @@ pub async fn login(
     session
         .insert("AUTH_USER", &serde_json::to_string(&user_response).unwrap())
         .await?;
-    session.insert("AUTH_USER_ID", uid).await?;
+    session.insert("AUTH_USER_ID", user_id).await?;
 
     Ok((
         StatusCode::OK,
@@ -176,26 +191,25 @@ pub async fn login_pin(
     Json(body): Json<LoginPinForm>,
 ) -> Result<impl IntoResponse, AppError> {
     body.validate()?;
-    let secret_key = std::env::var("V2_SECRET_KEY").unwrap();
 
     let conn = pool.pg_pool.get().await?;
-    let row = conn
+    let users_row = conn
         .query_opt(
             "select uid, fname, lname, login_pin from users where email=$1",
             &[&body.email],
         )
         .await?;
 
-    if row.is_none() {
+    let users_row = if let Some(user) = users_row {
+        user
+    } else {
         return Err(AppError::InternalServerError("User not found".to_string()));
-    }
+    };
 
-    let row = row.unwrap();
-
-    let uid: i32 = row.get(0);
-    let fname: String = row.get(1);
-    let lname: String = row.get(2);
-    let password: String = row.get(3);
+    let user_id: i32 = users_row.get(0);
+    let fname: String = users_row.get(1);
+    let lname: String = users_row.get(2);
+    let password: String = users_row.get(3);
 
     let is_valid_password = *&body.login_pin == *password;
 
@@ -205,11 +219,27 @@ pub async fn login_pin(
         ));
     }
 
+    let secret_keys_row = conn
+    .query_opt(
+        "select secret_key from secret_keys where user_id=$1",
+        &[&user_id],
+    )
+    .await?;
+
+    let secret_keys_row = if let Some(secret_key) = secret_keys_row {
+        secret_key
+    } else {
+        return Err(AppError::InternalServerError("Secret key for user not found.".to_string()));
+    };
+
+    let secret_key: String = secret_keys_row.get(0);
+
     let user_response = json!({
-        "uid": uid,
+        "uid": user_id,
         "email": &body.email.clone(),
         "fname": fname.clone(),
         "lname": lname.clone(),
+        "secret_key": secret_key,
     });
     let current_time = Local::now();
     let expiration_time = current_time + ChronoDuration::days(3);
@@ -218,7 +248,7 @@ pub async fn login_pin(
         data: UserData {
             fname: fname.clone(),
             lname: lname.clone(),
-            uid: uid,
+            uid: user_id,
         },
         exp: expiration_time.timestamp() as usize,
         aud: None,
@@ -247,7 +277,7 @@ pub async fn login_pin(
     session
         .insert("AUTH_USER", &serde_json::to_string(&user_response).unwrap())
         .await?;
-    session.insert("AUTH_USER_ID", uid).await?;
+    session.insert("AUTH_USER_ID", user_id).await?;
 
     Ok((
         StatusCode::OK,

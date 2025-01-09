@@ -19,16 +19,16 @@ export default function Add(props: any) {
   const [username, setUsername] = useState('');
   const [url, setUrl] = useState('');
   const [password, setPassword] = useState('');
-  const [secret_key, setSecretKey] = useState('');
+  const [master_key, setMasterKey] = useState('');
   const [error, setError] = useState('');
   const [secureTextEntry, setSecureTextEntry] = useState(true);
 
   const saveCred = async () => {
     setError('');
     try {
-      const enc_text = NativeModules.AegisCryptoModule.encrypt(
+      const enc_text = await NativeModules.AegisCryptoModule.encrypt(
         password,
-        secret_key,
+        authContext.user.secret_key + master_key,
       );
       axios
         .post(`${base_url}/creds/add`, {
@@ -39,11 +39,15 @@ export default function Add(props: any) {
           password: enc_text,
           metadata: '',
         })
-        .then(() => {})
+        .then(() => {
+          console.log('Credentials added');
+        })
         .catch(e => {
           handleError(e, setError);
         });
-    } catch (error) {}
+    } catch (e) {
+      console.log('error', e);
+    }
   };
 
   const onIconPress = () => {
@@ -84,9 +88,9 @@ export default function Add(props: any) {
       />
 
       <TextInput
-        placeholder="Secret Key"
-        value={secret_key}
-        onChangeText={setSecretKey}
+        placeholder="Master Key"
+        value={master_key}
+        onChangeText={setMasterKey}
         theme={theme}
       />
 
