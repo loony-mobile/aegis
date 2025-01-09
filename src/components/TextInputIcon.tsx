@@ -1,5 +1,11 @@
 import React from 'react';
-import {TextInput, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  TextInput,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  KeyboardTypeOptions,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 interface TextInputIconProps {
@@ -9,6 +15,7 @@ interface TextInputIconProps {
   secureTextEntry: boolean;
   placeholder: string;
   theme?: any;
+  keyboardType?: KeyboardTypeOptions;
 }
 
 export default function TextInputIcon({
@@ -18,6 +25,7 @@ export default function TextInputIcon({
   secureTextEntry,
   placeholder,
   theme,
+  keyboardType,
 }: TextInputIconProps) {
   return (
     <View style={[theme.textInputCon, styles.inputContainer]}>
@@ -28,6 +36,7 @@ export default function TextInputIcon({
         value={value}
         onChangeText={onChangeText}
         autoCapitalize="none"
+        keyboardType={keyboardType || 'default'}
         secureTextEntry={secureTextEntry}
       />
       <TouchableOpacity onPress={onIconPress} style={styles.button}>

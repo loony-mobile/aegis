@@ -35,11 +35,21 @@ pub struct LoginForm {
 }
 
 #[derive(Deserialize, Debug, Validate)]
+pub struct LoginPinForm {
+    #[validate(custom = "validate_email")]
+    email: String,
+    #[validate(length(min = 6))]
+    login_pin: String,
+}
+
+#[derive(Deserialize, Debug, Validate)]
 pub struct SignupForm {
     #[validate(custom = "validate_email")]
     email: String,
     #[validate(length(min = 6))]
     password: String,
+    #[validate(length(min = 6))]
+    login_pin: String,
     #[validate(length(min = 3))]
     fname: String,
     lname: String,
@@ -160,6 +170,93 @@ pub async fn login(
     ))
 }
 
+pub async fn login_pin(
+    session: Session,
+    State(pool): State<AppState>,
+    Json(body): Json<LoginPinForm>,
+) -> Result<impl IntoResponse, AppError> {
+    body.validate()?;
+    let secret_key = std::env::var("V2_SECRET_KEY").unwrap();
+
+    let conn = pool.pg_pool.get().await?;
+    let row = conn
+        .query_opt(
+            "select uid, fname, lname, login_pin from users where email=$1",
+            &[&body.email],
+        )
+        .await?;
+
+    if row.is_none() {
+        return Err(AppError::InternalServerError("User not found".to_string()));
+    }
+
+    let row = row.unwrap();
+
+    let uid: i32 = row.get(0);
+    let fname: String = row.get(1);
+    let lname: String = row.get(2);
+    let password: String = row.get(3);
+
+    let is_valid_password = *&body.login_pin == *password;
+
+    if !is_valid_password {
+        return Err(AppError::InternalServerError(
+            "Invalid password".to_string(),
+        ));
+    }
+
+    let user_response = json!({
+        "uid": uid,
+        "email": &body.email.clone(),
+        "fname": fname.clone(),
+        "lname": lname.clone(),
+    });
+    let current_time = Local::now();
+    let expiration_time = current_time + ChronoDuration::days(3);
+
+    let claims = Claims {
+        data: UserData {
+            fname: fname.clone(),
+            lname: lname.clone(),
+            uid: uid,
+        },
+        exp: expiration_time.timestamp() as usize,
+        aud: None,
+        iat: Some(current_time.timestamp() as usize),
+        iss: None,
+        nbf: None,
+        sub: None,
+    };
+    let token = encode(
+        &Header::default(),
+        &claims,
+        &EncodingKey::from_secret(secret_key.as_ref()),
+    )?;
+
+    let cookie = CookieBuilder::new("Authorization", token)
+        .same_site(cookie::SameSite::Strict)
+        .secure(true)
+        .http_only(true)
+        .max_age(Duration::days(3))
+        .path("/")
+        .build()
+        .to_string();
+
+    let mut header_map = HeaderMap::new();
+    header_map.insert(header::SET_COOKIE, cookie.parse().unwrap());
+    session
+        .insert("AUTH_USER", &serde_json::to_string(&user_response).unwrap())
+        .await?;
+    session.insert("AUTH_USER_ID", uid).await?;
+
+    Ok((
+        StatusCode::OK,
+        [(header::CONTENT_TYPE, "application/json")],
+        header_map,
+        Json(user_response),
+    ))
+}
+
 pub async fn signup(
     State(state): State<AppState>,
     Json(body): Json<SignupForm>,
@@ -185,14 +282,14 @@ pub async fn signup(
         return Err(AppError::InternalServerError("User exists".to_string()));
     }
 
-    let query1 = conn.prepare("INSERT INTO users(email, password, fname, lname) values($1, $2, $3, $4) RETURNING uid").await?;
+    let query1 = conn.prepare("INSERT INTO users(email, password, login_pin, fname, lname) values($1, $2, $3, $4, $5) RETURNING uid").await?;
     let query2 = conn.prepare("INSERT INTO secret_keys(user_id, prev_secret_key, secret_key) VALUES($1, $2, $3)").await?;
 
     let hashed_password = hash(&body.password, DEFAULT_COST)?;
     let res = conn
         .query_one(
             &query1,
-            &[&body.email, &hashed_password, &body.fname, &body.lname],
+            &[&body.email, &hashed_password, &body.login_pin, &body.fname, &body.lname],
         )
         .await?;
     let user_id: i32 = res.get(0);

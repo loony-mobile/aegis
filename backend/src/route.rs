@@ -12,7 +12,7 @@ use tower_http::limit::RequestBodyLimitLayer;
 use crate::file::{get_tmp_file, upload_file};
 
 use crate::{
-    auth::{get_user_session, login, signup},
+    auth::{get_user_session, login, login_pin, signup},
     AppState,
 };
 use serde_json::json;
@@ -48,7 +48,8 @@ pub async fn create_router(connection: AppState, cors: CorsLayer) -> Router {
         .with_expiry(Expiry::OnInactivity(Duration::days(3)));
 
     let auth_routes = Router::new()
-        .route("/login", get(login).post(login))
+        .route("/login", post(login))
+        .route("/login_pin",post(login_pin))
         .route("/signup", post(signup))
         .route(
             "/user/session",

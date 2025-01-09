@@ -16,13 +16,15 @@ function Signup({setComponentState, appContext}: any): React.JSX.Element {
     lastname: '',
     email: '',
     password: '',
+    login_pin: '',
   });
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [loginPinError, setLoginPinError] = useState('');
   const [secureTextEntry, setSecureTextEntry] = useState(true);
 
   const handleSignup = async () => {
-    const {email, password, firstname, lastname} = signupState;
+    const {email, password, firstname, lastname, login_pin} = signupState;
     let valid = true;
 
     // Reset error messages
@@ -44,17 +46,25 @@ function Signup({setComponentState, appContext}: any): React.JSX.Element {
       valid = false;
     }
 
+    if (!login_pin) {
+      setLoginPinError('Login Pin Error is required');
+      valid = false;
+    }
+
     if (valid) {
       try {
-        // setComponentState('LOGIN');
         let url = `${appContext.base_url}/auth/signup`;
-        console.log(url, 'url');
-        const formData = {fname: firstname, lname: lastname, email, password};
-        console.log(formData);
+        const formData = {
+          fname: firstname,
+          lname: lastname,
+          email,
+          password,
+          login_pin,
+        };
         axios
           .post(url, formData)
-          .then(({data}) => {
-            console.log('data', data);
+          .then(() => {
+            setComponentState('LOGIN');
           })
           .catch(e => {
             console.log('error', e.response);
@@ -102,6 +112,13 @@ function Signup({setComponentState, appContext}: any): React.JSX.Element {
     });
   };
 
+  const setLoginPin = (value: string) => {
+    setLoginState({
+      ...signupState,
+      login_pin: value,
+    });
+  };
+
   return (
     <View style={[styles.container, theme.con]}>
       <View style={styles.logoCon}>
@@ -143,6 +160,17 @@ function Signup({setComponentState, appContext}: any): React.JSX.Element {
         theme={theme}
       />
       {passwordError ? <Text style={theme.error}>{passwordError}</Text> : null}
+
+      <TextInputIcon
+        value={signupState.login_pin}
+        onChangeText={setLoginPin}
+        secureTextEntry={secureTextEntry}
+        onIconPress={onIconPress}
+        placeholder="Login Pin"
+        keyboardType="number-pad"
+        theme={theme}
+      />
+      {loginPinError ? <Text style={theme.error}>{loginPinError}</Text> : null}
 
       <TouchableOpacity style={[theme.button]} onPress={handleSignup}>
         <Text style={[theme.btnText]}>Signup</Text>
