@@ -105,7 +105,6 @@ function LoginWithPin({
     if (valid) {
       try {
         let url = `${appContext.base_url}/auth/login_pin`;
-        console.log(url);
         axios
           .post(url, {email: userSession.email, login_pin})
           .then(async ({data}) => {
@@ -131,10 +130,6 @@ function LoginWithPin({
     }
   };
 
-  const handleSignup = () => {
-    setComponentState('SIGNUP');
-  };
-
   const onIconPress = () => {
     setSecureTextEntry(!secureTextEntry);
   };
@@ -149,8 +144,8 @@ function LoginWithPin({
 
   return (
     <View style={[theme.con, styles.container]}>
-      <View>
-        <Text>Hi {userSession.fname}</Text>
+      <View style={innerStyles.welcomeCon}>
+        <Text style={innerStyles.welcomeText}>Hi {userSession.fname}</Text>
         <Text>Welcome back</Text>
       </View>
       <View style={styles.logoCon}>
@@ -160,35 +155,60 @@ function LoginWithPin({
           <Text>credentials.</Text>
         </View>
       </View>
-      {appError ? (
-        <View>
-          <Text style={theme.error}>{appError}</Text>
+      <View style={styles.formContainer}>
+        {appError ? (
+          <View>
+            <Text style={theme.error}>{appError}</Text>
+          </View>
+        ) : null}
+
+        <TextInputIcon
+          value={loginState.login_pin}
+          onChangeText={setPassword}
+          secureTextEntry={secureTextEntry}
+          onIconPress={onIconPress}
+          placeholder="Login Pin"
+          keyboardType="number-pad"
+          theme={theme}
+        />
+        {loginPinError ? (
+          <Text style={theme.error}>{loginPinError}</Text>
+        ) : null}
+
+        <Button
+          text="Login"
+          onPress={handleLogin}
+          loadingIndicator={loadingIndicator}
+          theme={theme}
+        />
+      </View>
+      <View style={styles.optionsContainer}>
+        <View style={styles.optionsInnderCon}>
+          <TouchableOpacity onPress={() => setComponentState('LOGIN_PASSWORD')}>
+            <View style={styles.loginWithPinCon}>
+              <Text style={styles.loginWith}>Login with </Text>
+              <Text style={styles.withPin}>password?</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setComponentState('SIGNUP')}>
+            <View>
+              <Text style={styles.createAccountText}>Create Account</Text>
+            </View>
+          </TouchableOpacity>
         </View>
-      ) : null}
-
-      <TextInputIcon
-        value={loginState.login_pin}
-        onChangeText={setPassword}
-        secureTextEntry={secureTextEntry}
-        onIconPress={onIconPress}
-        placeholder="Login Pin"
-        keyboardType="number-pad"
-        theme={theme}
-      />
-      {loginPinError ? <Text style={theme.error}>{loginPinError}</Text> : null}
-
-      <Button
-        text="Login"
-        onPress={handleLogin}
-        loadingIndicator={loadingIndicator}
-        theme={theme}
-      />
-      <View style={STYLES.border} />
-      <TouchableOpacity style={styles.createAccount} onPress={handleSignup}>
-        <Text style={styles.createAccountText}>Create Account</Text>
-      </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 export default LoginWithPin;
+
+const innerStyles = {
+  welcomeCon: {
+    padding: 14,
+  },
+  welcomeText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+};

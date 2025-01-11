@@ -118,7 +118,6 @@ function Login({
     if (valid) {
       try {
         let url = `${appContext.base_url}/auth/login`;
-        console.log(url);
         axios
           .post(url, {email, password})
           .then(async ({data}) => {
@@ -143,10 +142,6 @@ function Login({
     } else {
       setLoadingIndicator(Indicator.IDLE);
     }
-  };
-
-  const handleSignup = () => {
-    setComponentState('SIGNUP');
   };
 
   const onIconPress = () => {
@@ -177,40 +172,55 @@ function Login({
           <Text>credentials.</Text>
         </View>
       </View>
-      {appError ? (
-        <View>
-          <Text style={theme.error}>{appError}</Text>
+
+      <View style={styles.formContainer}>
+        {appError ? (
+          <View>
+            <Text style={theme.error}>{appError}</Text>
+          </View>
+        ) : null}
+        <TextInput
+          placeholder="Email"
+          value={loginState.email}
+          onChangeText={setEmail}
+          theme={theme}
+        />
+        {emailError ? <Text style={theme.error}>{emailError}</Text> : null}
+
+        <TextInputIcon
+          value={loginState.password}
+          onChangeText={setPassword}
+          secureTextEntry={secureTextEntry}
+          onIconPress={onIconPress}
+          placeholder="Password"
+          theme={theme}
+        />
+        {passwordError ? (
+          <Text style={theme.error}>{passwordError}</Text>
+        ) : null}
+
+        <Button
+          text="Login"
+          onPress={handleLogin}
+          loadingIndicator={loadingIndicator}
+          theme={theme}
+        />
+      </View>
+      <View style={styles.optionsContainer}>
+        <View style={styles.optionsInnderCon}>
+          <TouchableOpacity onPress={() => setComponentState('LOGIN_PIN')}>
+            <View style={styles.loginWithPinCon}>
+              <Text style={styles.loginWith}>Login with </Text>
+              <Text style={styles.withPin}>pin?</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setComponentState('SIGNUP')}>
+            <View>
+              <Text style={styles.createAccountText}>Create Account</Text>
+            </View>
+          </TouchableOpacity>
         </View>
-      ) : null}
-
-      <TextInput
-        placeholder="Email"
-        value={loginState.email}
-        onChangeText={setEmail}
-        theme={theme}
-      />
-      {emailError ? <Text style={theme.error}>{emailError}</Text> : null}
-
-      <TextInputIcon
-        value={loginState.password}
-        onChangeText={setPassword}
-        secureTextEntry={secureTextEntry}
-        onIconPress={onIconPress}
-        placeholder="Password"
-        theme={theme}
-      />
-      {passwordError ? <Text style={theme.error}>{passwordError}</Text> : null}
-
-      <Button
-        text="Login"
-        onPress={handleLogin}
-        loadingIndicator={loadingIndicator}
-        theme={theme}
-      />
-      <View style={STYLES.border} />
-      <TouchableOpacity style={styles.createAccount} onPress={handleSignup}>
-        <Text style={styles.createAccountText}>Create Account</Text>
-      </TouchableOpacity>
+      </View>
     </View>
   );
 }

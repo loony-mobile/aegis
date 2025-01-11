@@ -182,17 +182,11 @@ export const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
-  container: {
-    flex: 1,
-    padding: 20,
-    justifyContent: 'center',
-  },
+  container: {flex: 1, justifyContent: 'space-between'},
   logoCon: {
-    width: '100%',
+    flex: 3,
     display: 'flex',
-    flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 20,
   },
   logo: {
     borderRadius: 25,
@@ -201,6 +195,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 25,
   },
+  formContainer: {flex: 5, padding: 12, justifyContent: 'center'},
   title: {
     fontSize: 32,
     fontWeight: 'bold',
@@ -217,11 +212,28 @@ export const styles = StyleSheet.create({
     backgroundColor: '#363636',
     color: '#ccc',
   },
-  createAccount: {
-    marginTop: 5,
+  optionsContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    padding: 14,
+    marginBottom: 10,
+  },
+  optionsInnderCon: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  loginWithPinCon: {
+    flexDirection: 'row',
+  },
+  loginWith: {
+    color: 'grey',
+  },
+  withPin: {
+    color: 'white',
   },
   createAccountText: {
-    textAlign: 'center',
+    color: 'white',
   },
   error: {
     color: 'white',

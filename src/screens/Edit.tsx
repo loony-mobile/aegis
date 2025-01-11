@@ -37,7 +37,6 @@ export default function Edit(props: any) {
   }, []);
 
   const handleDelete = () => {
-    console.log(`${base_url}/creds/delete/${props.route.params.uid}`);
     axios
       .post(`${base_url}/creds/delete/${props.route.params.uid}`)
       .then(() => {})
@@ -68,7 +67,6 @@ export default function Edit(props: any) {
   };
 
   const onIconPress = async () => {
-    console.log(authContext.user.secret_key + master_key);
     const dec_text = await NativeModules.AegisCryptoModule.decrypt(
       props.route.params.password,
       authContext.user.secret_key + master_key,

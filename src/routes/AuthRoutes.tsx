@@ -15,7 +15,7 @@ export default function AuthRoutes(props: any) {
         setUserSession(JSON.parse(user));
         setComponentState('LOGIN_PIN');
       } else {
-        setComponentState('LOGIN');
+        setComponentState('LOGIN_PASSWORD');
       }
     })();
   }, []);
@@ -29,7 +29,7 @@ export default function AuthRoutes(props: any) {
           userSession={userSession}
         />
       )}
-      {state === 'LOGIN' && (
+      {state === 'LOGIN_PASSWORD' && (
         <Login {...props} setComponentState={setComponentState} />
       )}
       {state === 'SIGNUP' && (
