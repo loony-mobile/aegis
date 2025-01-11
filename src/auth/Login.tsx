@@ -161,6 +161,13 @@ function Login({
       password: value,
     });
   };
+
+  const loginWithPin = () => {
+    if (authContext.user) {
+      setComponentState('LOGIN_PIN');
+    }
+  };
+
   const theme = STYLES[appTheme];
 
   return (
@@ -208,7 +215,7 @@ function Login({
       </View>
       <View style={styles.optionsContainer}>
         <View style={styles.optionsInnderCon}>
-          <TouchableOpacity onPress={() => setComponentState('LOGIN_PIN')}>
+          <TouchableOpacity onPress={loginWithPin}>
             <View style={styles.loginWithPinCon}>
               <Text style={styles.loginWith}>Login with </Text>
               <Text style={styles.withPin}>pin?</Text>

@@ -9,7 +9,11 @@ import {useTheme} from '../context/AppProvider';
 import Button from '../components/Button';
 import {Indicator} from '../types';
 
-function Signup({setComponentState, appContext}: any): React.JSX.Element {
+function Signup({
+  setComponentState,
+  appContext,
+  authContext,
+}: any): React.JSX.Element {
   const appTheme = useTheme();
   const theme = STYLES[appTheme];
 
@@ -122,6 +126,12 @@ function Signup({setComponentState, appContext}: any): React.JSX.Element {
     });
   };
 
+  const loginWithPin = () => {
+    if (authContext.user) {
+      setComponentState('LOGIN_PIN');
+    }
+  };
+
   return (
     <View style={[styles.container, theme.con]}>
       <View style={styles.logoCon}>
@@ -194,7 +204,7 @@ function Signup({setComponentState, appContext}: any): React.JSX.Element {
               <Text style={styles.withPin}>password?</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setComponentState('LOGIN_PIN')}>
+          <TouchableOpacity onPress={loginWithPin}>
             <View style={styles.loginWithPinCon}>
               <Text style={styles.loginWith}>Login with </Text>
               <Text style={styles.withPin}>pin?</Text>
