@@ -140,6 +140,16 @@ function LoginWithPin({
       login_pin: value,
     });
   };
+
+  const removeAccount = async () => {
+    await AsyncStorage.clear();
+    setAuthContext({
+      status: AuthStatus.UNAUTHORIZED,
+      user: null,
+    });
+    setComponentState('LOGIN_PASSWORD');
+  };
+
   const theme = STYLES[appTheme];
 
   return (
@@ -190,9 +200,9 @@ function LoginWithPin({
               <Text style={styles.withPin}>password?</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => setComponentState('SIGNUP')}>
+          <TouchableOpacity onPress={removeAccount}>
             <View>
-              <Text style={styles.createAccountText}>Create Account</Text>
+              <Text style={styles.createAccountText}>Remove Account</Text>
             </View>
           </TouchableOpacity>
         </View>
