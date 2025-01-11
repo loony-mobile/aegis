@@ -67,12 +67,22 @@ export default function Edit(props: any) {
   };
 
   const onIconPress = async () => {
-    const dec_text = await NativeModules.AegisCryptoModule.decrypt(
-      props.route.params.password,
-      authContext.user.secret_key + master_key,
-    );
-    setPassword(dec_text);
-    setSecureTextEntry(!secureTextEntry);
+    if (!master_key) {
+      return;
+    }
+    if (secureTextEntry === false && master_key) {
+      setMasterKey('');
+      setSecureTextEntry(!secureTextEntry);
+      setPassword('*****');
+      return;
+    } else if (secureTextEntry === true && master_key) {
+      const dec_text = await NativeModules.AegisCryptoModule.decrypt(
+        props.route.params.password,
+        authContext.user.secret_key + master_key,
+      );
+      setPassword(dec_text);
+      setSecureTextEntry(!secureTextEntry);
+    }
   };
 
   const confirmDelete = () => {
