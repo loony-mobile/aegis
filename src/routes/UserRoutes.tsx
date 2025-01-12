@@ -8,6 +8,7 @@ import ProfileScreen from '../screens/Profile';
 import AddScreen from '../screens/Add';
 import {useTheme} from '../context/AppProvider';
 import {STYLES} from '../styles';
+import {Indexer} from '../types';
 
 const tabBarIcon = ({route, focused, color, size}: any) => {
   let iconName = 'home';
@@ -28,9 +29,9 @@ const Tab = createBottomTabNavigator();
 
 export default function UserRoutes(props: any) {
   const appTheme = useTheme();
-  const theme = STYLES[appTheme];
+  const theme: Indexer = STYLES[appTheme];
 
-  const screenOptions = ({route}: any) => ({
+  const screenOptions: any = ({route}: any) => ({
     headerStyle: theme.headerStyle,
     headerTintColor: theme.headerTintColor,
     headerTitleStyle: {

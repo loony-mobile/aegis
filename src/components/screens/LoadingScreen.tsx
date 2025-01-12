@@ -8,10 +8,11 @@ import {
 } from 'react-native';
 import {STYLES} from '../../styles/index';
 import {useTheme} from '../../context/AppProvider';
+import {Indexer} from '../../types';
 
 const LoadingScreen = () => {
   const appTheme = useTheme();
-  const theme = STYLES[appTheme];
+  const theme: Indexer = STYLES[appTheme];
   // Initialize animation state
   const fadeAnim = useRef(new Animated.Value(0)).current;
 

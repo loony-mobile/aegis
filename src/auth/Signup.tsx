@@ -7,7 +7,7 @@ import TextInputIcon from '../components/TextInputIcon';
 import axios from 'axios';
 import {useTheme} from '../context/AppProvider';
 import Button from '../components/Button';
-import {Indicator} from '../types';
+import {Indicator, Indexer} from '../types';
 
 function Signup({
   setComponentState,
@@ -15,7 +15,7 @@ function Signup({
   authContext,
 }: any): React.JSX.Element {
   const appTheme = useTheme();
-  const theme = STYLES[appTheme];
+  const theme: Indexer = STYLES[appTheme];
 
   const [signupState, setLoginState] = useState({
     firstname: '',

@@ -7,6 +7,7 @@ import TextInput from '../components/TextInput';
 import ButtonTextInput from '../components/TextInputIcon';
 import {useTheme} from '../context/AppProvider';
 import {NativeModules} from 'react-native';
+import {Indexer} from '../types';
 
 export default function Add(props: any) {
   const {appContext, authContext} = props.route.params;
@@ -14,7 +15,7 @@ export default function Add(props: any) {
   const user_id: number = authContext.user.uid;
 
   const appTheme = useTheme();
-  const theme = STYLES[appTheme];
+  const theme: Indexer = STYLES[appTheme];
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [url, setUrl] = useState('');

@@ -1,29 +1,3 @@
 {
-  "compilerOptions": {
-    "target": "ES2017",
-    "module": "ESNext",
-    "lib": ["ESNext", "DOM"],
-    "jsx": "react-native",
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "strict": true,
-    "noImplicitAny": false,
-    "moduleResolution": "node",
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    },
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "types": ["react", "react-native"]
-  },
-  "exclude": [
-    "node_modules",
-    "babel.config.js",
-    "metro.config.js",
-    "jest.config.js"
-  ],
-  "include": ["src/**/*", "index.ts", "index.tsx"]
+  "extends": "@react-native/typescript-config/tsconfig.json"
 }

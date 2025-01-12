@@ -1,14 +1,8 @@
 #!/bin/bash
 
-TARGET="$1"
+# NDK_TARGET="x86_64-linux-android"
 
-if [ "$1" = "" ]; then
-    echo "missing argument TARGET"
-    echo "Usage: $0 TARGET"
-    exit 1
-fi
-
-NDK_TARGET="x86_64-linux-android"
+NDK_TARGET="aarch64-linux-android"
 
 # if [ "$TARGET" = "arm-linux-androideabi" ]; then
 #     NDK_TARGET="armv7a-linux-androideabi"
@@ -28,6 +22,6 @@ AR=$TOOLS/bin/llvm-ar \
 CXX=$TOOLS/bin/${NDK_TARGET}${API_VERSION}-clang++ \
 RANDLIB=$TOOLS/bin/llvm-ranlib \
 CXXFLAGS="--target=$NDK_TARGET" \
-cargo build --target $TARGET --release $EXTRA_ARGS 
+cargo build --target $NDK_TARGET --release $EXTRA_ARGS 
 
 # ./build-android.sh x86_64-linux-android

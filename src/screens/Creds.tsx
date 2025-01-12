@@ -15,6 +15,7 @@ import Edit from './Edit';
 import {STYLES} from '../styles';
 import {handleError} from '../utils';
 import {useTheme} from '../context/AppProvider';
+import {Indexer} from '../types';
 const Stack = createStackNavigator();
 
 const Card = (props: any) => {
@@ -49,7 +50,7 @@ const Creds = (props: any) => {
   const {base_url} = appContext;
 
   const appTheme = useTheme();
-  const theme = STYLES[appTheme];
+  const theme: Indexer = STYLES[appTheme];
   const [creds, setCreds] = useState<any[] | null>(null);
   const [refreshing, setRefreshing] = useState(true);
   const [_, setError] = useState('');

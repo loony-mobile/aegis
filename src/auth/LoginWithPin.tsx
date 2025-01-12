@@ -8,7 +8,7 @@ import axios from 'axios';
 
 import {handleError} from '../utils';
 import Text from '../components/Text';
-import {Indicator, AuthStatus} from '../types';
+import {Indicator, AuthStatus, Indexer} from '../types';
 import {STYLES, styles} from '../styles';
 import Button from '../components/Button';
 import {useTheme} from '../context/AppProvider';
@@ -150,7 +150,7 @@ function LoginWithPin({
     setComponentState('LOGIN_PASSWORD');
   };
 
-  const theme = STYLES[appTheme];
+  const theme: Indexer = STYLES[appTheme];
 
   return (
     <View style={[theme.con, styles.container]}>

@@ -1,4 +1,5 @@
 import {StyleProp, StyleSheet, TextStyle, ViewStyle} from 'react-native';
+import {Indexer} from '../types';
 export const darkTheme = {
   background: '#121212',
   surface: '#1E1E1E',
@@ -37,7 +38,7 @@ const lightButton: StyleProp<ViewStyle> = {
   backgroundColor: '#e0e0e0',
 };
 
-export const STYLES = {
+export const STYLES: Indexer = {
   dark: {
     headerStyle: {
       backgroundColor: '#1E1E1E',

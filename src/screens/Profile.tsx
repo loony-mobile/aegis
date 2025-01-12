@@ -1,14 +1,14 @@
 import React from 'react';
 import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {AuthStatus} from '../types';
+import {AuthStatus, Indexer} from '../types';
 import {STYLES} from '../styles';
 import {useTheme} from '../context/AppProvider';
 
 export default function Profile(props: any) {
   const {setAuthContext} = props.route.params.authContext;
   const appTheme = useTheme();
-  const theme = STYLES[appTheme];
+  const theme: Indexer = STYLES[appTheme];
 
   const handleLogout = async () => {
     await AsyncStorage.removeItem('AUTH_TOKEN_EXPIRY');
