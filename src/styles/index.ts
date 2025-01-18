@@ -183,7 +183,7 @@ export const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
-  container: {flex: 1, justifyContent: 'space-between'},
+  container: {flex: 1},
   logoCon: {
     flex: 3,
     display: 'flex',
