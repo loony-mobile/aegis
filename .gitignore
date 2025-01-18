@@ -78,3 +78,4 @@ deno.lock
 .env
 configs/app.config.json
 android/app/src/main/jniLibs
+.cache
