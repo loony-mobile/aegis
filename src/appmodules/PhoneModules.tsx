@@ -1,14 +1,12 @@
 import React from 'react';
-import {View} from 'react-native';
+import {View, Text} from 'react-native';
 
-import TextComponent from '../components/Text';
-
-function PhoneModule() {
+const PhoneModules = () => {
   return (
     <View>
-      <TextComponent>Phone</TextComponent>
+      <Text>PhoneModules</Text>
     </View>
   );
-}
+};
 
-export default PhoneModule;
+export default PhoneModules;
