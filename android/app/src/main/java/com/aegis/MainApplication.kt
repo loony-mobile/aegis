@@ -11,8 +11,8 @@ import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
 import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.react.soloader.OpenSourceMergedSoMapping
 import com.facebook.soloader.SoLoader
-import com.aegiscrypto.AegisCryptoPackage;
-import com.aegiscall.AegisCallScreeningPackage;
+import com.aegis.AegisCryptoPackage;
+import com.aegis.AegisCallScreeningPackage;
 
 class MainApplication : Application(), ReactApplication {
 

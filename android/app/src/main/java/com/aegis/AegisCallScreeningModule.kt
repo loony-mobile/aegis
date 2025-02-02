@@ -1,4 +1,4 @@
-package com.aegiscall
+package com.aegis
 
 import android.content.Intent
 import android.telecom.CallScreeningService

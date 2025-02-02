@@ -1,4 +1,4 @@
-package com.aegiscall
+package com.aegis
 
 import com.facebook.react.ReactPackage
 import com.facebook.react.bridge.NativeModule
